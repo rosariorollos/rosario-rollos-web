@@ -15,6 +15,18 @@
       "unidadesPorCaja": 10,
       "precio": null,
       "precioAnterior": null
+    },
+    {
+      "tipo": "caja",
+      "unidadesPorCaja": 100,
+      "precio": null,
+      "precioAnterior": null
+    },
+    {
+      "tipo": "caja",
+      "unidadesPorCaja": 200,
+      "precio": null,
+      "precioAnterior": null
     }
   ],
   "descripcionCorta": "El 57 mm de mayor rendimiento: 10 metros más que el de posnet, para comercios que imprimen más.",

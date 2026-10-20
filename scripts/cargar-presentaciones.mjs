@@ -12,8 +12,13 @@ const DIR = 'src/content/productos';
 const CAJAS = {
   'termico-80x50.json': [60, 100],
   'termico-57x20-posnet.json': [100, 250],
+  'termico-57x30.json': [100, 200],
   'quimico-76x25.json': [50],
   'quimico-76x30.json': [50],
+  'obra-76x30.json': [60],
+  'obra-76x40.json': [60],
+  'etiqueta-55x44-balanza.json': [60],
+  'etiqueta-100x150-mercado-libre.json': [20],
 };
 
 // Productos que no se venden por rollo (no llevan pack de 10).

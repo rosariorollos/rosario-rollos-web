@@ -14,6 +14,12 @@
       "unidadesPorCaja": 10,
       "precio": null,
       "precioAnterior": null
+    },
+    {
+      "tipo": "caja",
+      "unidadesPorCaja": 20,
+      "precio": null,
+      "precioAnterior": null
     }
   ],
   "descripcionCorta": "Etiquetas de envío para Mercado Libre, Mercado Envíos, tiendas online y logística.",

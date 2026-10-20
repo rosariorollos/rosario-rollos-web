@@ -12,6 +12,12 @@
       "unidadesPorCaja": 10,
       "precio": null,
       "precioAnterior": null
+    },
+    {
+      "tipo": "caja",
+      "unidadesPorCaja": 60,
+      "precio": null,
+      "precioAnterior": null
     }
   ],
   "descripcionCorta": "Papel obra extra blanco 76x30, gramaje 57 g.",

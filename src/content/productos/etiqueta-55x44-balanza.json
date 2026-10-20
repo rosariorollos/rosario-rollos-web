@@ -14,6 +14,12 @@
       "unidadesPorCaja": 10,
       "precio": null,
       "precioAnterior": null
+    },
+    {
+      "tipo": "caja",
+      "unidadesPorCaja": 60,
+      "precio": null,
+      "precioAnterior": null
     }
   ],
   "descripcionCorta": "Etiquetas para balanzas impresoras de carnicerías, fiambrerías, verdulerías y supermercados.",
