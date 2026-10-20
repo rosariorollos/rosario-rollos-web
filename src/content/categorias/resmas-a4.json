@@ -1,0 +1,39 @@
+{
+  "nombre": "Resmas A4",
+  "slug": "resmas-a4",
+  "descripcion": "Resmas de papel A4 Boreal y Pampa, 70 y 75 gramos.",
+  "orden": 6,
+  "destacada": false,
+  "icono": "file",
+  "seoTitle": "Resmas de papel A4 en Rosario — Boreal y Pampa | Rosario Rollos",
+  "seoDescription": "Venta de resmas de papel A4 en Rosario: Boreal y Pampa, 70 y 75 gramos. Por mayor y por menor, con envíos propios. Pedí por WhatsApp.",
+  "intro": "Además de los rollos, vendemos resmas de papel A4 en las marcas Boreal y Pampa, en 70 y 75 gramos. Es un producto práctico para sumar al pedido si ya nos compras rollos: te llega todo junto en la misma entrega.",
+  "guiaMedidas": [
+    { "equipo": "Uso general de oficina e impresión diaria", "medida": "70 gramos" },
+    { "equipo": "Documentos de mejor presentación", "medida": "75 gramos" }
+  ],
+  "secciones": [
+    {
+      "titulo": "70 o 75 gramos: cuál conviene",
+      "texto": "El gramaje indica el peso del papel. El de 70 gramos es el de uso general, el más económico para impresión diaria de oficina. El de 75 gramos es un poco más grueso y firme, y se nota en documentos que van a quedar presentados o que se manipulan mucho.\n\nPara el día a día, el de 70 cumple perfecto."
+    },
+    {
+      "titulo": "Sumalas a tu pedido de rollos",
+      "texto": "Si ya nos compras rollos para tu comercio, sumar las resmas al mismo pedido te ahorra una compra aparte y un envío: coordinamos todo en la misma entrega a tu local en Rosario y alrededores."
+    }
+  ],
+  "preguntas": [
+    {
+      "pregunta": "¿Qué marcas de resma manejan?",
+      "respuesta": "Trabajamos Boreal y Pampa, ambas en 70 y 75 gramos."
+    },
+    {
+      "pregunta": "¿Venden resmas por cantidad?",
+      "respuesta": "Sí, vendemos por mayor y por menor. Armá tu pedido y envialo por WhatsApp para recibir la cotización por cantidad."
+    },
+    {
+      "pregunta": "¿Puedo pedir resmas junto con los rollos?",
+      "respuesta": "Sí, y es lo más conveniente: va todo en el mismo pedido y en la misma entrega."
+    }
+  ]
+}

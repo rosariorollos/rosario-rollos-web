@@ -1,0 +1,37 @@
+{
+  "nombre": "Rollo térmico 57x30",
+  "slug": "57x30",
+  "categoria": "rollos-termicos",
+  "medida": "57 mm x 30 metros reales",
+  "gramaje": "48 grs",
+  "color": "Blanco",
+  "tipoPapel": "Papel térmico",
+  "paginaPropia": true,
+  "destacado": true,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "El 57 mm de mayor rendimiento: 10 metros más que el de posnet, para comercios que imprimen más.",
+  "descripcion": "Rollo de papel térmico blanco de alta calidad. Medida: 57 mm x 30 metros reales.\n\nCompatible con impresoras térmicas de tickets, ticketeras compactas y sistemas POS que admitan rollos de 57 mm. Ideal para kioscos, comercios minoristas, locales gastronómicos y puntos de cobro.\n\nTambién es el rollo que usan habitualmente las balanzas con impresora de verdulerías y carnicerías, y los equipos de estacionamientos. Al tener 10 metros más que el de 20, rinde más y obliga a menos recambios. La compatibilidad exacta depende del modelo de equipo.",
+  "compatibilidades": [
+    "Impresoras térmicas de tickets",
+    "Ticketeras compactas",
+    "Sistemas POS de 57 mm"
+  ],
+  "usos": [
+    "Kioscos y comercios minoristas",
+    "Locales gastronómicos",
+    "Balanzas de verdulerías y carnicerías",
+    "Estacionamientos",
+    "Puntos de cobro"
+  ],
+  "orden": 5,
+  "foto": "/imagenes/termico-57x30.webp",
+  "ordenDestacado": 5
+}

@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { EMPRESA } from '../config';
+
+const anios = new Date().getFullYear() - EMPRESA.desde;
+
+const valores = [
+  { titulo: 'Atención', texto: 'Te ayudamos a elegir el rollo correcto para tu equipo, sin vueltas.' },
+  { titulo: 'Calidad', texto: 'Papel de primera calidad, fabricado por nosotros mismos.' },
+  { titulo: 'Compromiso', texto: 'Cumplimos con los tiempos de entrega acordados.' },
+  { titulo: 'Logística', texto: 'Envíos propios a Rosario y alrededores.' },
+];
+---
+<Base
+  title="Sobre nosotros — Fábrica de rollos en Rosario desde 2005 | Rosario Rollos"
+  description={`Somos fabricantes de rollos de papel fiscal en Rosario desde ${EMPRESA.desde}. Vendemos por mayor y por menor, con logística propia a Rosario y alrededores.`}>
+
+  <div class="contenedor">
+    <Breadcrumbs items={[{ texto: 'Nosotros' }]} />
+
+    <header class="nos-cab">
+      <h1>Sobre nosotros</h1>
+      <p class="nos-bajada">
+        Desde {EMPRESA.desde} nos dedicamos a la fabricación y distribución de rollos de papel
+        fiscal. Ya son {anios} años trabajando con comercios, farmacias, bares, estacionamientos
+        y mutuales de Rosario y la zona.
+      </p>
+    </header>
+
+    <section class="nos-bloque">
+      <h2>Somos fabricantes</h2>
+      <p>
+        Al fabricar nosotros mismos, tenemos stock permanente en las medidas más pedidas y
+        podemos confeccionar rollos a medida según lo que necesite cada cliente. Eso nos permite
+        sostener precios competitivos tanto por menor como por cantidad.
+      </p>
+    </section>
+
+    <section class="nos-bloque">
+      <h2>Cómo trabajamos</h2>
+      <ul class="nos-valores">
+        {valores.map((v) => (
+          <li class="nos-valor">
+            <h3>{v.titulo}</h3>
+            <p>{v.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .nos-cab { padding-block: 1rem 0.5rem; }
+  .nos-cab h1 { font-size: clamp(1.7rem, 5vw, 2.6rem); margin: 0.25rem 0 0.5rem; }
+  .nos-bajada { max-width: 65ch; font-size: 1.05rem; color: #4a5a55; }
+  .nos-bloque { margin-top: 2rem; max-width: 70ch; }
+  .nos-bloque h2 { font-size: 1.25rem; }
+  .nos-valores { list-style: none; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .nos-valor { padding: 1.1rem; border-radius: var(--radio); background: var(--gris-suave); border: 2px solid var(--verde-menta-claro); }
+  .nos-valor h3 { margin: 0 0 0.3rem; font-size: 1.05rem; }
+  .nos-valor p { margin: 0; font-size: 0.93rem; }
+</style>

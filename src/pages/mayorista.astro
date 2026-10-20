@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { EMPRESA, urlWhatsapp } from '../config';
+
+const anios = new Date().getFullYear() - EMPRESA.desde;
+
+// Rubros reales a los que ya se les vende (según los mensajes de venta del negocio).
+const rubros = [
+  'Comercios y kioscos',
+  'Farmacias',
+  'Bares y restaurantes',
+  'Estacionamientos',
+  'Mutuales y asociaciones',
+  'Supermercados y verdulerías',
+  'Vendedores de e-commerce',
+  'Revendedores y distribuidores',
+];
+---
+<Base
+  title="Venta de rollos térmicos por mayor — Fabricante en Rosario | Rosario Rollos"
+  description="Somos fabricantes de rollos térmicos, obra y químico. Precios mayoristas para comercios, distribuidores y revendedores. Pedí tu cotización por WhatsApp.">
+
+  <div class="contenedor">
+    <Breadcrumbs items={[{ texto: 'Venta por mayor' }]} />
+
+    <header class="may-cab">
+      <h1>Rollos por mayor: comprá directo de fábrica</h1>
+      <p class="may-bajada">
+        No somos revendedores: fabricamos los rollos nosotros mismos desde {EMPRESA.desde}.
+        Por eso podemos ofrecer precios competitivos por cantidad y stock permanente en
+        las medidas más pedidas.
+      </p>
+      <a class="boton boton--wsp" href={urlWhatsapp('Hola, quería consultar precios por mayor.')} target="_blank" rel="noopener">
+        Pedir cotización mayorista
+      </a>
+    </header>
+
+    <section class="may-bloque">
+      <h2>¿Por qué comprarle al fabricante?</h2>
+      <ul class="may-lista">
+        <li><strong>Sin intermediarios:</strong> el precio no pasa por una cadena de reventa.</li>
+        <li><strong>Stock propio:</strong> fabricamos, así que no dependemos de la disponibilidad de terceros.</li>
+        <li><strong>Medidas a pedido:</strong> confeccionamos rollos según lo que necesite tu operación.</li>
+        <li><strong>Envío gratis:</strong> con logística propia, entregamos en tu local en Rosario y alrededores.</li>
+        <li><strong>{anios} años de trayectoria</strong> abasteciendo comercios de la ciudad.</li>
+      </ul>
+    </section>
+
+    <section class="may-bloque">
+      <h2>A quiénes abastecemos</h2>
+      <ul class="may-rubros">
+        {rubros.map((r) => <li>{r}</li>)}
+      </ul>
+    </section>
+
+    <section class="may-bloque">
+      <h2>Cómo pedir precios por mayor</h2>
+      <ol class="may-pasos">
+        <li>Armá tu pedido desde el catálogo con las cantidades que necesitás.</li>
+        <li>Enviálo por WhatsApp: los productos sin precio publicado llegan como consulta.</li>
+        <li>Te pasamos la cotización por cantidad y coordinamos la entrega.</li>
+      </ol>
+      <div class="may-acciones">
+        <a class="boton" href="/productos">Ver catálogo</a>
+        <a class="boton boton--wsp" href={urlWhatsapp('Hola, quería consultar precios por mayor.')} target="_blank" rel="noopener">
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .may-cab { padding-block: 1rem 0.5rem; }
+  .may-cab h1 { font-size: clamp(1.7rem, 5vw, 2.6rem); margin: 0.25rem 0 0.5rem; max-width: 22ch; }
+  .may-bajada { max-width: 62ch; font-size: 1.05rem; color: #4a5a55; }
+  .may-bloque { margin-top: 2rem; max-width: 70ch; }
+  .may-bloque h2 { font-size: 1.25rem; }
+  .may-lista { padding-left: 1.1rem; }
+  .may-lista li { margin-bottom: 0.45rem; }
+  .may-rubros {
+    list-style: none; padding: 0; display: grid; gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+  .may-rubros li {
+    padding: 0.6rem 0.85rem; border-radius: var(--radio-chico);
+    background: var(--gris-suave); border: 1px solid var(--verde-menta-claro); font-size: 0.93rem;
+  }
+  .may-pasos { padding-left: 1.2rem; }
+  .may-pasos li { margin-bottom: 0.4rem; }
+  .may-acciones { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.25rem; }
+</style>

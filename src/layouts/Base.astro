@@ -1,0 +1,78 @@
+---
+import '../styles/tokens.css';
+import '../styles/carrito.css';
+import '../styles/agregar.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Carrito from '../components/Carrito.tsx';
+import BotonesFlotantes from '../components/BotonesFlotantes.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Ruta canónica sin dominio, ej: "/rollos-termicos". Por defecto la actual. */
+  canonicalPath?: string;
+  /** Poner true en staging para NO indexar. En producción va false. */
+  noindex?: boolean;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'Fábrica de rollos de papel fiscal en Rosario desde 2005: térmicos, obra, químico, etiquetas autoadhesivas y más. Envíos a Rosario y alrededores.',
+  canonicalPath,
+  noindex = false,
+  ogImage = '/imagenes/og-default.jpg',
+} = Astro.props;
+
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).href;
+const ogImageUrl = new URL(ogImage, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Verificación de Google Search Console (misma que servía Wix; así la propiedad
+         sigue verificada tras el cambio de DNS y no se corta el acceso a los datos). -->
+    <meta name="google-site-verification" content="flWrz7x9Wsypovol750dyBmhg-sPyNW2Wnwp_SC0GbE" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Rosario Rollos" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Tipografías: Oswald (títulos condensados) + Jost (cuerpo geométrico) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Jost:wght@400;500;600;700&display=swap"
+    />
+  </head>
+  <body>
+    <a href="#contenido" class="visualmente-oculto">Saltar al contenido</a>
+    <Header />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+    <!-- Accesos fijos: WhatsApp + carrito, siempre visibles y juntos. -->
+    <BotonesFlotantes>
+      <Carrito client:idle />
+    </BotonesFlotantes>
+  </body>
+</html>

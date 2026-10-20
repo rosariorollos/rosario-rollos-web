@@ -1,0 +1,66 @@
+{
+  "nombre": "Etiquetas autoadhesivas",
+  "slug": "etiquetas-autoadhesivas",
+  "descripcion": "Etiquetas de envío para Mercado Libre y e-commerce, y para balanzas de comercios.",
+  "orden": 4,
+  "destacada": true,
+  "icono": "tag",
+  "seoTitle": "Etiquetas autoadhesivas 10x15 y para balanza en Rosario | Rosario Rollos",
+  "seoDescription": "Etiquetas térmicas autoadhesivas en Rosario: 100x150 mm (10x15) para Mercado Envíos y e-commerce, y 55x44 para balanzas. De fábrica, por mayor y por menor.",
+  "intro": "Fabricamos y vendemos etiquetas térmicas autoadhesivas en rollo. Las dos más pedidas son la de 100x150 mm (10x15 cm) para etiquetas de envío de Mercado Libre y e-commerce, y la de 55x44 mm para balanzas de carnicerías, verdulerías y supermercados.",
+  "guiaMedidas": [
+    {
+      "equipo": "Envíos de Mercado Libre / Mercado Envíos",
+      "medida": "100x150 mm (10x15 cm)"
+    },
+    {
+      "equipo": "Tiendanube, dropshipping y e-commerce",
+      "medida": "100x150 mm (10x15 cm)"
+    },
+    {
+      "equipo": "Balanza de carnicería, verdulería o fiambrería",
+      "medida": "55x44 mm"
+    },
+    {
+      "equipo": "Balanza de supermercado",
+      "medida": "55x44 mm"
+    }
+  ],
+  "secciones": [
+    {
+      "titulo": "Etiquetas para Mercado Libre y e-commerce",
+      "texto": "La etiqueta de 100x150 mm —que también se conoce como 10x15 cm— es la medida estándar para las etiquetas de envío del e-commerce. Es la que usan Mercado Envíos, Mercado Envíos Flex, Tiendanube y la mayoría de los couriers.\n\nSon térmicas de impresión directa: no necesitan tinta, tóner ni ribbon. Se imprimen en cualquier impresora térmica de etiquetas. Si vendés online y despachás varios paquetes por día, comprarlas por cantidad directo de fábrica te baja bastante el costo por envío."
+    },
+    {
+      "titulo": "Etiquetas para balanzas",
+      "texto": "La etiqueta de 55x44 mm en rollos de 450 unidades es la que usan las balanzas electrónicas con impresora de etiquetas: imprimen peso, precio y código de barras.\n\nLa usan carnicerías, verdulerías, fiambrerías y supermercados. Es un producto de compra repetida, así que conviene tener stock y pedirlo por cantidad."
+    },
+    {
+      "titulo": "Otras medidas a pedido",
+      "texto": "Si necesitás una medida de etiqueta que no figura en el listado, consultanos. Trabajamos distintas medidas según la necesidad del cliente."
+    }
+  ],
+  "preguntas": [
+    {
+      "pregunta": "¿La etiqueta 10x15 y la 100x150 son la misma?",
+      "respuesta": "Sí, es exactamente la misma etiqueta: 10x15 son centímetros y 100x150 son milímetros. Es la medida estándar de las etiquetas de envío de Mercado Libre, Mercado Envíos y la mayoría de las plataformas de e-commerce."
+    },
+    {
+      "pregunta": "¿Sirven para Mercado Envíos y Mercado Envíos Flex?",
+      "respuesta": "Sí. La etiqueta de 100x150 mm es la medida que usan Mercado Envíos y Mercado Envíos Flex, además de Tiendanube y otros couriers. Se imprimen en impresoras térmicas de etiquetas; la compatibilidad exacta depende del modelo de tu impresora."
+    },
+    {
+      "pregunta": "¿Necesitan tinta o ribbon?",
+      "respuesta": "No. Son etiquetas térmicas de impresión directa: imprimen por calor, sin tinta, tóner ni ribbon."
+    },
+    {
+      "pregunta": "¿Qué etiqueta usa mi balanza?",
+      "respuesta": "Las balanzas electrónicas con impresora de etiquetas de comercios usan habitualmente la de 55x44 mm. Si no estás seguro, mandanos una foto del rollo que estás usando o el modelo de la balanza y te lo confirmamos."
+    },
+    {
+      "pregunta": "¿Venden por cantidad para vendedores de e-commerce?",
+      "respuesta": "Sí, es justamente nuestro caso típico. Al ser fabricantes podemos ofrecer precios por cantidad. Armá tu pedido y envialo por WhatsApp para recibir la cotización."
+    }
+  ],
+  "foto": "/imagenes/cat-etiquetas.webp"
+}

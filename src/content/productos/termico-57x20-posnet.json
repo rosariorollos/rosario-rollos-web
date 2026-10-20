@@ -1,0 +1,47 @@
+{
+  "nombre": "Rollo térmico 57x20 (posnet)",
+  "slug": "57x20-posnet",
+  "categoria": "rollos-termicos",
+  "medida": "57 mm x 20 metros reales",
+  "gramaje": "48 grs",
+  "color": "Blanco",
+  "tipoPapel": "Papel térmico",
+  "paginaPropia": true,
+  "destacado": true,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    },
+    {
+      "tipo": "caja",
+      "unidadesPorCaja": 100,
+      "precio": null,
+      "precioAnterior": null
+    },
+    {
+      "tipo": "caja",
+      "unidadesPorCaja": 250,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "El rollo de posnet: para terminales de pago y cobros con tarjeta.",
+  "descripcion": "Rollo de papel térmico blanco de alta calidad. Medida: 57 mm x 20 metros reales. Gramaje: 48 grs.\n\nIdeal para pequeños comercios, kioscos, locales gastronómicos, cobros con tarjetas y sistemas de impresión de comprobantes.\n\nEs el rollo que se conoce habitualmente como rollo de posnet: 57 mm es el ancho que usan las terminales de pago. La compatibilidad exacta depende del modelo de equipo.",
+  "compatibilidades": [
+    "Terminales de pago y cobro con tarjeta",
+    "Impresoras de comprobantes"
+  ],
+  "usos": [
+    "Pequeños comercios y kioscos",
+    "Locales gastronómicos",
+    "Cobros con tarjeta",
+    "Impresión de comprobantes"
+  ],
+  "orden": 3,
+  "foto": "/imagenes/termico-57x20-posnet.webp",
+  "ordenDestacado": 6
+}

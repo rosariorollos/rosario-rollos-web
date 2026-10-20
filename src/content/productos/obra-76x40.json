@@ -1,0 +1,33 @@
+{
+  "nombre": "Rollo obra 76x40",
+  "slug": "76x40",
+  "categoria": "rollos-obra",
+  "medida": "76 mm x 40 metros reales",
+  "color": "Blanco",
+  "tipoPapel": "Papel obra",
+  "paginaPropia": true,
+  "destacado": true,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Papel obra para cajas registradoras e impresoras de impacto.",
+  "descripcion": "Rollo de papel obra blanco de buena calidad. Medida: 76 mm x 40 metros reales.\n\nCompatible con cajas registradoras e impresoras de impacto que utilicen papel obra de este ancho. Ideal para comercios, supermercados y negocios que necesitan imprimir tickets y comprobantes comerciales.\n\nSu encolado superficial ayuda a reducir el desprendimiento de polvillo y a prolongar la vida útil del cabezal impresor. La compatibilidad exacta depende del modelo de equipo.",
+  "compatibilidades": [
+    "Cajas registradoras",
+    "Impresoras de impacto de 76 mm"
+  ],
+  "usos": [
+    "Comercios",
+    "Supermercados",
+    "Tickets y comprobantes comerciales"
+  ],
+  "orden": 1,
+  "foto": "/imagenes/obra-76x40.webp",
+  "ordenDestacado": 8
+}

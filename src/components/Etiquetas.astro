@@ -1,0 +1,64 @@
+---
+import { tienePrecio, enOferta, type Variante } from '../lib/precios';
+
+/**
+ * Chapitas que se superponen a la foto del producto:
+ * envío gratis siempre, y oferta / sin stock cuando corresponde.
+ * El descuento se calcula solo a partir del precio anterior cargado.
+ */
+interface Props {
+  variantes?: Variante[];
+  agotado?: boolean;
+  envioGratis?: boolean;
+}
+const { variantes = [], agotado = false, envioGratis = true } = Astro.props;
+
+// Mayor descuento entre las variantes en oferta.
+const descuentos = variantes
+  .filter(enOferta)
+  .map((v) => Math.round((1 - (v.precio as number) / (v.precioAnterior as number)) * 100))
+  .filter((d) => d > 0);
+const descuento = descuentos.length ? Math.max(...descuentos) : null;
+---
+<span class="etqs">
+  {descuento !== null && (
+    <span class="etq etq--oferta">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+        <path d="M21.4 11.6l-9-9A2 2 0 0011 2H4a2 2 0 00-2 2v7a2 2 0 00.6 1.4l9 9a2 2 0 002.8 0l7-7a2 2 0 000-2.8zM6.5 8A1.5 1.5 0 118 6.5 1.5 1.5 0 016.5 8z"/>
+      </svg>
+      {descuento}% OFF
+    </span>
+  )}
+
+  {agotado && <span class="etq etq--agotado">Sin stock</span>}
+
+  {envioGratis && !agotado && (
+    <span class="etq etq--envio">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+        <path d="M3 6a1 1 0 011-1h9a1 1 0 011 1v2h2.6a1 1 0 01.8.4l2.4 3.2a1 1 0 01.2.6V17a1 1 0 01-1 1h-1.2a2.8 2.8 0 01-5.6 0H9.8a2.8 2.8 0 01-5.6 0H4a1 1 0 01-1-1V6zm13 4v2h3.1L17.6 10H16zM7 16.2a1 1 0 100 2 1 1 0 000-2zm8 0a1 1 0 100 2 1 1 0 000-2z"/>
+      </svg>
+      Envío gratis
+    </span>
+  )}
+</span>
+
+<style>
+  .etqs {
+    position: absolute; top: 0.45rem; left: 0.45rem; right: 0.45rem;
+    display: flex; flex-wrap: wrap; gap: 0.3rem; pointer-events: none; z-index: 2;
+  }
+  .etq {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.2rem 0.5rem; border-radius: 999px;
+    font-family: var(--fuente); font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.02em; line-height: 1.3; white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(15, 60, 76, 0.18);
+  }
+  .etq--envio { background: var(--verde-menta); color: var(--blanco); }
+  .etq--oferta { background: #e23b2e; color: var(--blanco); }
+  .etq--agotado { background: var(--celeste-profundo); color: var(--blanco); }
+
+  @media (min-width: 620px) {
+    .etq { font-size: 0.72rem; padding: 0.22rem 0.6rem; }
+  }
+</style>

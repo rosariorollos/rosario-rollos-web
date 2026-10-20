@@ -1,0 +1,108 @@
+---
+import FotoTarjeta from './FotoTarjeta.astro';
+import Etiquetas from './Etiquetas.astro';
+import BotonAgregar from './BotonAgregar.tsx';
+import { textoPrecio, nombrePresentacion, tienePrecio, enOferta, formatearPrecio, ordenarPresentaciones, type Variante } from '../lib/precios';
+
+/**
+ * Tarjeta de producto al estilo tienda: foto con etiquetas, nombre,
+ * medida, precio (o "Consultar") y botón para sumarlo al pedido.
+ */
+interface Props {
+  producto: {
+    nombre: string;
+    slug: string;
+    categoria: string;
+    medida: string;
+    descripcionCorta: string;
+    foto?: string;
+    agotado: boolean;
+    paginaPropia: boolean;
+    variantes: Variante[];
+  };
+}
+const { producto: p } = Astro.props;
+
+const url = p.paginaPropia ? `/${p.categoria}/${p.slug}` : `/${p.categoria}`;
+// Se muestra el precio de la caja más chica con precio cargado.
+const ordenadas = ordenarPresentaciones(p.variantes);
+// Mostramos la presentación más chica con precio (normalmente el pack).
+const principal = ordenadas.find(tienePrecio) ?? ordenadas[0] ?? null;
+---
+<article class="tp">
+  <a class="tp__link" href={url}>
+    <span class="tp__media">
+      <Etiquetas variantes={p.variantes} agotado={p.agotado} />
+      <FotoTarjeta foto={p.foto} alt={p.nombre} modo="contener" ancho={260} alto={195} />
+    </span>
+
+    <span class="tp__cuerpo">
+      <span class="tp__nombre">{p.nombre}</span>
+      {p.medida && <span class="tp__medida">{p.medida}</span>}
+
+      <span class="tp__precio-caja">
+        {principal && tienePrecio(principal) ? (
+          <>
+            {enOferta(principal) && (
+              <s class="tp__tachado">{formatearPrecio(principal.precioAnterior as number)}</s>
+            )}
+            <span class="tp__precio">{textoPrecio(principal)}</span>
+            <span class="tp__caja">{nombrePresentacion(principal)}</span>
+          </>
+        ) : (
+          <span class="tp__consultar">Consultar precio</span>
+        )}
+      </span>
+    </span>
+  </a>
+
+  <div class="tp__accion">
+    {principal ? (
+      <BotonAgregar client:visible
+        id={`${p.slug}-${principal.tipo}-${principal.unidadesPorCaja}`}
+        nombre={p.nombre}
+        tipo={principal.tipo}
+        unidadesPorCaja={principal.unidadesPorCaja}
+        precio={tienePrecio(principal) ? principal.precio : null}
+        agotado={p.agotado} />
+    ) : (
+      <BotonAgregar client:visible
+        id={`${p.slug}-consulta`} nombre={p.nombre}
+        unidadesPorCaja={0} precio={null} agotado={p.agotado} />
+    )}
+  </div>
+</article>
+
+<style>
+  .tp {
+    display: flex; flex-direction: column; height: 100%;
+    background: var(--blanco); border-radius: var(--radio); overflow: hidden;
+    box-shadow: var(--sombra); transition: transform 0.15s ease;
+  }
+  .tp:hover { transform: translateY(-3px); }
+
+  .tp__link { display: flex; flex-direction: column; flex: 1; text-decoration: none; color: var(--celeste-profundo); }
+  .tp__media { position: relative; display: block; background: var(--gris-suave); }
+
+  .tp__cuerpo { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.7rem 0.8rem 0.5rem; flex: 1; }
+  .tp__nombre {
+    font-family: var(--fuente-titulo); text-transform: uppercase;
+    font-weight: 600; font-size: 0.95rem; line-height: 1.12;
+  }
+  .tp__medida { font-size: 0.75rem; color: #5a6e75; }
+
+  .tp__precio-caja { display: flex; flex-direction: column; margin-top: auto; padding-top: 0.45rem; }
+  .tp__tachado { font-size: 0.78rem; color: #8a9aa0; }
+  .tp__precio { font-size: 1.15rem; font-weight: 700; color: var(--celeste-profundo); line-height: 1.15; }
+  .tp__caja { font-size: 0.72rem; color: #5a6e75; }
+  .tp__consultar { font-size: 0.95rem; font-weight: 700; color: var(--verde); }
+
+  .tp__accion { padding: 0 0.8rem 0.8rem; }
+  .tp__accion :global(.agregar) { width: 100%; font-size: 0.85rem; padding-inline: 0.6rem; }
+
+  @media (min-width: 620px) {
+    .tp__nombre { font-size: 1.05rem; }
+    .tp__cuerpo { padding: 0.85rem 1rem 0.55rem; }
+    .tp__accion { padding: 0 1rem 1rem; }
+  }
+</style>

@@ -1,0 +1,24 @@
+/* Botón "Agregar al pedido" (usado en tablas de medidas y fichas de producto). */
+.agregar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--toque-min);
+  padding: 0.55rem 1.1rem;
+  border: 2px solid var(--verde-menta);
+  border-radius: var(--radio-chico);
+  background: var(--verde-menta);
+  color: var(--blanco);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.agregar:hover { background: var(--verde); border-color: var(--verde); }
+.agregar--agotado {
+  background: var(--gris-suave);
+  border-color: var(--gris-suave);
+  color: #8a9793;
+  cursor: not-allowed;
+}

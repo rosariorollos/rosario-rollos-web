@@ -1,0 +1,78 @@
+{
+  "nombre": "Rollos térmicos",
+  "slug": "rollos-termicos",
+  "descripcion": "Para impresoras fiscales, comanderas, posnet, balanzas y terminales de pago.",
+  "orden": 1,
+  "destacada": true,
+  "icono": "receipt",
+  "seoTitle": "Rollos térmicos en Rosario — todas las medidas, de fábrica | Rosario Rollos",
+  "seoDescription": "Fábrica de rollos térmicos en Rosario desde 2005. Medidas 80x50, 80x60, 57x30, posnet y más. Por mayor y por menor, con envíos propios. Pedí por WhatsApp.",
+  "intro": "Fabricamos rollos de papel térmico en todas las medidas, para impresoras fiscales, comanderas, terminales de pago, balanzas y puntos de venta. Al ser fabricantes tenemos stock permanente de las medidas más usadas y podemos hacer medidas especiales a pedido.",
+  "guiaMedidas": [
+    {
+      "equipo": "Posnet, Mercado Pago Point o Lapos",
+      "medida": "57x20"
+    },
+    {
+      "equipo": "Comandera de bar o restaurante",
+      "medida": "57x30 u 80x50"
+    },
+    {
+      "equipo": "Balanza de verdulería o carnicería",
+      "medida": "57x30"
+    },
+    {
+      "equipo": "Estacionamiento o parking",
+      "medida": "57x30"
+    },
+    {
+      "equipo": "Impresora fiscal o línea de caja",
+      "medida": "80x50"
+    },
+    {
+      "equipo": "Comercio de mucho movimiento",
+      "medida": "80x60"
+    },
+    {
+      "equipo": "Impresora de tickets de 80 mm (opción económica)",
+      "medida": "80x30"
+    }
+  ],
+  "secciones": [
+    {
+      "titulo": "Qué es el papel térmico",
+      "texto": "El papel térmico es un papel termosensible: imprime por calor, sin necesidad de tinta ni tóner. Por eso se usa en casi todos los equipos que emiten tickets y comprobantes, desde una impresora fiscal hasta un posnet. La impresión sale nítida y rápida, y el equipo no necesita cartuchos ni cintas.\n\nLas medidas se expresan como ancho en milímetros por largo en metros. Por ejemplo, un rollo 80x50 tiene 80 mm de ancho y 50 metros de papel. El ancho lo define tu equipo; el largo define cuánto dura el rollo antes de cambiarlo."
+    },
+    {
+      "titulo": "Dónde se usan nuestros rollos térmicos",
+      "texto": "Trabajamos con comercios, farmacias, bares y restaurantes, estacionamientos, verdulerías, carnicerías, supermercados, mutuales y vendedores de e-commerce de Rosario y la zona.\n\nNuestros rollos se usan en impresoras fiscales, líneas de caja, comanderas, posnet y terminales de pago, balanzas con impresora, cajeros y terminales de autoservicio, equipos de parking y turneros digitales."
+    },
+    {
+      "titulo": "Comprá directo de fábrica",
+      "texto": "No somos revendedores: fabricamos los rollos nosotros mismos desde 2005. Eso significa stock propio en las medidas más pedidas, precios sin intermediarios y la posibilidad de confeccionar medidas especiales según lo que necesite tu equipo.\n\nVendemos por mayor y por menor, y contamos con logística propia para llevar el pedido a tu local en Rosario y alrededores."
+    }
+  ],
+  "preguntas": [
+    {
+      "pregunta": "¿Qué medida de rollo térmico necesito?",
+      "respuesta": "El ancho lo define tu equipo: los posnet y terminales de pago usan 57 mm, y la mayoría de las impresoras fiscales y comanderas usan 80 mm. El largo (los metros) lo elegís según cuánto movimiento tenga tu negocio: más metros significa menos recambios de rollo. Si no estás seguro, mandanos una foto del rollo que estás usando o de tu impresora y te decimos cuál es."
+    },
+    {
+      "pregunta": "¿Cuál es la diferencia entre el 80x50 y el 80x60?",
+      "respuesta": "Es el mismo rollo y entra en los mismos equipos: la diferencia son los metros de papel. El 80x50 es la medida estándar y la más pedida. El 80x60 tiene un 20% más de papel, así que rinde más y obliga a menos recambios: conviene en comercios de mucho movimiento."
+    },
+    {
+      "pregunta": "¿El rollo de posnet es lo mismo que el de 57 mm?",
+      "respuesta": "Sí. Lo que se conoce como rollo de posnet es un rollo térmico de 57 mm de ancho, que es la medida que usan Posnet, Mercado Pago Point y Lapos. Nosotros lo tenemos en 57x20 para terminales de pago y en 57x30, que rinde más y se usa en comanderas, balanzas y estacionamientos."
+    },
+    {
+      "pregunta": "¿Venden por mayor?",
+      "respuesta": "Sí, al ser fabricantes trabajamos tanto por mayor como por menor. Para precios por cantidad armá tu pedido y envialo por WhatsApp: te pasamos la cotización según las cantidades que necesites."
+    },
+    {
+      "pregunta": "¿Hacen envíos?",
+      "respuesta": "Sí, y el envío es gratis. Tenemos logística propia y entregamos en comercios, farmacias, bares y locales de Rosario y alrededores. Coordinamos la entrega al confirmar el pedido."
+    }
+  ],
+  "foto": "/imagenes/cat-rollos-termicos.webp"
+}

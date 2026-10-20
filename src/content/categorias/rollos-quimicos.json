@@ -1,0 +1,46 @@
+{
+  "nombre": "Rollos químicos",
+  "slug": "rollos-quimicos",
+  "descripcion": "Autocopiativos duplicados y triplicados para impresoras y controladores fiscales.",
+  "orden": 3,
+  "destacada": true,
+  "icono": "copy",
+  "seoTitle": "Rollos químicos duplicados en Rosario — de fábrica | Rosario Rollos",
+  "seoDescription": "Fábrica de rollos químicos autocopiativos en Rosario. Duplicados y triplicados 76x25 y 76x30 para impresoras y controladores fiscales. Por mayor y por menor.",
+  "intro": "Fabricamos rollos de papel químico autocopiativo, también conocidos como rollos duplicados o dobles. Sirven para emitir el comprobante y su copia en una sola impresión, sin necesidad de imprimir dos veces.",
+  "guiaMedidas": [
+    {
+      "equipo": "Impresora o controlador fiscal (duplicado)",
+      "medida": "76x30"
+    },
+    {
+      "equipo": "Impresora fiscal (duplicado, rollo más corto)",
+      "medida": "76x25"
+    }
+  ],
+  "secciones": [
+    {
+      "titulo": "Qué es un rollo químico o autocopiativo",
+      "texto": "El papel químico, también llamado autocopiativo o self, está formado por dos o tres capas. Al imprimir sobre la primera, la reacción química entre las capas reproduce el mismo texto en la copia. Así obtenés el original y su duplicado en una sola pasada.\n\nSe usa cuando el comprobante necesita copia: una para el cliente y otra para el comercio."
+    },
+    {
+      "titulo": "Duplicado y triplicado",
+      "texto": "Fabricamos rollos duplicados (dos copias) y triplicados (tres copias), para impresoras y controladores fiscales.\n\nSi no sabés cuántas copias necesita tu equipo, consultanos: con el modelo de la impresora te lo confirmamos."
+    }
+  ],
+  "preguntas": [
+    {
+      "pregunta": "¿Rollo químico, duplicado y autocopiativo son lo mismo?",
+      "respuesta": "Sí, son distintos nombres para el mismo producto. También se lo llama papel self o rollo doble. Es el papel de dos o tres capas que imprime el comprobante y su copia al mismo tiempo."
+    },
+    {
+      "pregunta": "¿Qué medidas tienen?",
+      "respuesta": "Fabricamos 76x30, que es la medida más pedida, y 76x25. Si tu equipo usa otra medida, consultanos: hacemos rollos a medida."
+    },
+    {
+      "pregunta": "¿Sirve para cualquier impresora fiscal?",
+      "respuesta": "El rollo químico se usa en impresoras y controladores fiscales que emiten comprobante con copia. La compatibilidad exacta depende del modelo de tu equipo, así que lo mejor es consultarnos indicando qué impresora tenés."
+    }
+  ],
+  "foto": "/imagenes/cat-rollos-quimicos.webp"
+}

@@ -1,0 +1,20 @@
+{
+  "nombre": "Rollos impresos con tu logo",
+  "slug": "impresos",
+  "categoria": "rollos-termicos",
+  "medida": "A medida",
+  "tipoPapel": "Papel térmico u obra",
+  "paginaPropia": false,
+  "destacado": false,
+  "agotado": false,
+  "variantes": [],
+  "descripcionCorta": "Rollos impresos con el logo de tu comercio, en hasta tres colores. Servicio a medida: se cotiza según el trabajo.",
+  "descripcion": "Fabricamos rollos impresos con el logo de tu comercio o empresa. Ideales para que el rollo se convierta en una herramienta de marketing y eleve la imagen profesional de tu comercio.\n\nEl rollo puede ser de papel térmico u obra. Imprimimos en hasta tres colores.\n\nEs un trabajo a medida, así que no lleva precio de lista: consultanos y te pasamos la cotización según el diseño y la cantidad.",
+  "compatibilidades": [],
+  "usos": [
+    "Marketing en el ticket",
+    "Imagen de marca del comercio"
+  ],
+  "orden": 20,
+  "foto": "/imagenes/rollos-impresos.webp"
+}

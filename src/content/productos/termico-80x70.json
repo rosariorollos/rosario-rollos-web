@@ -1,0 +1,22 @@
+{
+  "nombre": "Rollo térmico 80x70",
+  "slug": "80x70",
+  "categoria": "rollos-termicos",
+  "medida": "80x70",
+  "paginaPropia": false,
+  "destacado": false,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Papel térmico 80x70 mm x metros, blanco de alta calidad.",
+  "descripcion": "",
+  "compatibilidades": [],
+  "usos": [],
+  "orden": 9
+}

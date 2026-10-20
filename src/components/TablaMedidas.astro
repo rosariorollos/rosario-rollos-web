@@ -1,0 +1,105 @@
+---
+import BotonAgregar from './BotonAgregar.tsx';
+import { textoPrecio, textoCaja, tienePrecio, enOferta, formatearPrecio, type Variante } from '../lib/precios';
+
+interface Props {
+  productos: {
+    slug: string;
+    nombre: string;
+    medida: string;
+    agotado: boolean;
+    paginaPropia: boolean;
+    variantes: Variante[];
+    descripcionCorta: string;
+    foto?: string;
+  }[];
+  categoriaSlug: string;
+}
+const { productos, categoriaSlug } = Astro.props;
+---
+<div class="tabla-medidas">
+  {productos.map((p) => (
+    <article class="medida">
+      {p.foto && (
+        <img class="medida__foto" src={p.foto} alt={p.nombre}
+             width="110" height="110" loading="lazy" decoding="async" />
+      )}
+      <div class="medida__cab">
+        <h3 class="medida__nombre">
+          {p.paginaPropia
+            ? <a href={`/${categoriaSlug}/${p.slug}`}>{p.nombre}</a>
+            : p.nombre}
+          {p.agotado && <span class="medida__tag medida__tag--agotado">Sin stock</span>}
+        </h3>
+        {p.descripcionCorta && <p class="medida__desc">{p.descripcionCorta}</p>}
+      </div>
+
+      {p.variantes.length === 0 ? (
+        <div class="medida__fila">
+          <span class="medida__precio">Consultar precio</span>
+          <BotonAgregar client:visible id={`${p.slug}-consulta`} nombre={p.nombre}
+                        unidadesPorCaja={0} precio={null} agotado={p.agotado} />
+        </div>
+      ) : (
+        p.variantes.map((v) => (
+          <div class="medida__fila">
+            <div>
+              <span class="medida__caja">{textoCaja(v)}</span>
+              <span class="medida__precio">
+                {enOferta(v) && (
+                  <s class="medida__tachado">{formatearPrecio(v.precioAnterior as number)}</s>
+                )}
+                {textoPrecio(v)}
+              </span>
+            </div>
+            <BotonAgregar client:visible
+                          id={`${p.slug}-x${v.unidadesPorCaja}`}
+                          nombre={p.nombre}
+                          unidadesPorCaja={v.unidadesPorCaja}
+                          precio={tienePrecio(v) ? v.precio : null}
+                          agotado={p.agotado} />
+          </div>
+        ))
+      )}
+    </article>
+  ))}
+</div>
+
+<style>
+  .tabla-medidas { display: grid; gap: 1rem; margin-top: 1.5rem; }
+  .medida {
+    border: 2px solid var(--verde-menta-claro);
+    border-radius: var(--radio);
+    padding: 1rem 1.1rem;
+    background: var(--blanco);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 1rem;
+    align-items: start;
+  }
+  .medida__foto {
+    width: 72px; height: 72px; object-fit: contain;
+    border-radius: var(--radio-chico); background: var(--gris-suave);
+    grid-row: span 2;
+  }
+  /* Las filas de precio ocupan todo el ancho, debajo de foto + título. */
+  .medida__cab { grid-column: 2; }
+  .medida__fila { grid-column: 1 / -1; }
+  .medida__nombre { margin: 0; font-size: 1.12rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .medida__nombre a { color: var(--verde-oscuro); text-decoration: none; }
+  .medida__nombre a:hover { text-decoration: underline; }
+  .medida__desc { margin: 0.35rem 0 0; font-size: 0.92rem; color: #5b6b66; }
+  .medida__tag {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 0.15rem 0.5rem; border-radius: 999px;
+  }
+  .medida__tag--agotado { background: #f6e7e6; color: #b3261e; }
+  .medida__fila {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap; padding-top: 0.8rem; margin-top: 0.8rem;
+    border-top: 1px solid var(--verde-menta-claro);
+  }
+  .medida__caja { display: block; font-size: 0.83rem; color: #5b6b66; }
+  .medida__precio { font-weight: 700; font-size: 1.05rem; color: var(--verde-oscuro); }
+  .medida__tachado { color: #8a9793; font-weight: 400; margin-right: 0.4rem; }
+</style>

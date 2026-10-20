@@ -1,0 +1,38 @@
+---
+/**
+ * Foto de una tarjeta. Si el producto/categoría todavía no tiene foto cargada,
+ * muestra un marcador con el logo para que la grilla no quede despareja.
+ */
+interface Props {
+  foto?: string;
+  alt: string;
+  modo?: 'cubrir' | 'contener';
+  ancho?: number;
+  alto?: number;
+}
+const { foto, alt, modo = 'cubrir', ancho = 320, alto = 200 } = Astro.props;
+---
+{foto ? (
+  <img
+    class:list={['tfoto', modo === 'contener' && 'tfoto--contener']}
+    src={foto} alt={alt} width={ancho} height={alto}
+    loading="lazy" decoding="async"
+  />
+) : (
+  <span class="tfoto tfoto--vacia" aria-hidden="true">
+    <img src="/imagenes/logo-rr.png" alt="" width="200" height="200" loading="lazy" decoding="async" />
+  </span>
+)}
+
+<style>
+  .tfoto {
+    width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
+    background: var(--gris-suave); display: block;
+  }
+  .tfoto--contener { object-fit: contain; aspect-ratio: 4 / 3; padding: 0.4rem; }
+  .tfoto--vacia {
+    display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--celeste-hielo), var(--celeste-claro));
+  }
+  .tfoto--vacia img { width: 46px; height: 46px; object-fit: contain; opacity: 0.5; }
+</style>

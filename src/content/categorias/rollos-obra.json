@@ -1,0 +1,66 @@
+{
+  "nombre": "Rollos papel obra",
+  "slug": "rollos-obra",
+  "descripcion": "Papel obra extra blanco para impresoras matriciales, registradoras y comprobantes.",
+  "orden": 2,
+  "destacada": true,
+  "icono": "scroll",
+  "seoTitle": "Rollos papel obra en Rosario — todas las medidas, de fábrica | Rosario Rollos",
+  "seoDescription": "Fábrica de rollos de papel obra en Rosario. Medidas 76x40, 57x30, 70x70, 98x40, 113x40 y más. Para matriciales, registradoras y comprobantes. Por mayor y por menor.",
+  "intro": "Fabricamos rollos de papel obra extra blanco, gramaje 57 g, en todas las medidas. Es el papel convencional que usan las impresoras matriciales, las registradoras y los equipos que no imprimen por calor. Seguimos fabricando medidas que ya casi nadie hace.",
+  "guiaMedidas": [
+    {
+      "equipo": "Impresora matricial o registradora",
+      "medida": "76x40"
+    },
+    {
+      "equipo": "Sumadora o calculadora con impresora",
+      "medida": "57x30"
+    },
+    {
+      "equipo": "Impresora fiscal de papel obra",
+      "medida": "76x40 o 98x40"
+    },
+    {
+      "equipo": "Línea de caja / centros de pago",
+      "medida": "98x40 o 113x40"
+    },
+    {
+      "equipo": "Equipos de gran ancho",
+      "medida": "120x40"
+    }
+  ],
+  "secciones": [
+    {
+      "titulo": "Qué es el papel obra y en qué se diferencia del térmico",
+      "texto": "El papel obra es papel común, sin tratamiento térmico: necesita cinta o tinta para imprimir. Es el que usan las impresoras matriciales, las registradoras y las sumadoras. El papel térmico, en cambio, imprime por calor y no sirve en esos equipos.\n\nSi tu equipo usa una cinta entintada, necesitás papel obra. Si imprime sin cinta ni cartucho, necesitás térmico."
+    },
+    {
+      "titulo": "Papel obra extra blanco con encolado superficial",
+      "texto": "Nuestro papel obra es extra blanco y tiene encolado superficial. Eso tiene una ventaja concreta que casi nadie menciona: reduce el desprendimiento de polvillo durante la impresión, lo que ayuda a prolongar la vida útil del cabezal impresor de tu equipo.\n\nAdemás, la superficie permite una impresión clara y uniforme, incluso en equipos de muchos años."
+    },
+    {
+      "titulo": "Medidas difíciles de conseguir",
+      "texto": "Varias medidas de papel obra dejaron de fabricarse en el mercado, y los comercios que todavía usan esos equipos quedan sin proveedor. Nosotros las seguimos haciendo.\n\nSi tenés un equipo antiguo y venís teniendo problemas para conseguir el rollo, consultanos: fabricamos a medida."
+    }
+  ],
+  "preguntas": [
+    {
+      "pregunta": "¿Cómo sé si necesito papel obra o térmico?",
+      "respuesta": "Fijate si tu equipo usa una cinta entintada: si la usa, necesitás papel obra. Si imprime sin cinta ni cartucho, necesitás papel térmico. Otra forma de verificarlo es rayar el papel con la uña: si queda una marca gris oscura, es térmico; si no deja marca, es obra."
+    },
+    {
+      "pregunta": "¿Qué gramaje tiene el papel obra?",
+      "respuesta": "Nuestros rollos de papel obra son de 57 gramos, extra blancos y con encolado superficial."
+    },
+    {
+      "pregunta": "¿Fabrican medidas que ya no se consiguen?",
+      "respuesta": "Sí. Varias medidas de papel obra dejaron de fabricarse en el mercado y nosotros las seguimos produciendo. Si no encontrás tu medida en el listado, consultanos: hacemos rollos a medida."
+    },
+    {
+      "pregunta": "¿Venden por mayor?",
+      "respuesta": "Sí, somos fabricantes y vendemos por mayor y por menor. Armá tu pedido y envialo por WhatsApp para recibir la cotización por cantidad."
+    }
+  ],
+  "foto": "/imagenes/cat-rollos-obra.webp"
+}

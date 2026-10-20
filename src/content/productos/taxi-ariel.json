@@ -1,0 +1,26 @@
+{
+  "nombre": "Rollo para taxímetro Ariel",
+  "slug": "ariel",
+  "categoria": "rollos-taxi",
+  "medida": "",
+  "paginaPropia": false,
+  "destacado": false,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Rollo para reloj taxímetro Ariel.",
+  "descripcion": "",
+  "compatibilidades": [
+    "Ariel"
+  ],
+  "usos": [
+    "Relojes taxímetros"
+  ],
+  "orden": 3
+}

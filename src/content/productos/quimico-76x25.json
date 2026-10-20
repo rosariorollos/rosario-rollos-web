@@ -1,0 +1,28 @@
+{
+  "nombre": "Rollo químico 76x25 (duplicado)",
+  "slug": "76x25",
+  "categoria": "rollos-quimicos",
+  "medida": "76x25",
+  "paginaPropia": false,
+  "destacado": false,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    },
+    {
+      "tipo": "caja",
+      "unidadesPorCaja": 50,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Papel autocopiativo duplicado para impresoras y controladores fiscales.",
+  "descripcion": "",
+  "compatibilidades": [],
+  "usos": [],
+  "orden": 1
+}

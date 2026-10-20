@@ -1,0 +1,283 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import FotoTarjeta from '../components/FotoTarjeta.astro';
+import TarjetaProducto from '../components/TarjetaProducto.astro';
+import HeroCarrusel from '../components/HeroCarrusel.astro';
+import { EMPRESA, urlWhatsapp } from '../config';
+
+const anios = new Date().getFullYear() - EMPRESA.desde;
+
+const categorias = (await getCollection('categorias')).sort(
+  (a, b) => a.data.orden - b.data.orden
+);
+const productos = await getCollection('productos');
+const destacados = productos
+  .filter((p) => p.data.destacado && p.data.paginaPropia)
+  .map((p) => p.data)
+  .sort((a, b) => a.ordenDestacado - b.ordenDestacado);
+
+const faq = (await getCollection('faq')).map((f) => f.data).sort((a, b) => a.orden - b.orden);
+
+const jsonLdFaq = faq.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map((f) => ({
+        '@type': 'Question',
+        name: f.pregunta,
+        acceptedAnswer: { '@type': 'Answer', text: f.respuesta },
+      })),
+    }
+  : null;
+
+// Fotos del banner principal (se deslizan solas).
+const fotosBanner = [
+  { src: '/imagenes/fabrica-rollos.webp', alt: 'Rollos de papel fabricados por Rosario Rollos' },
+  { src: '/imagenes/fabrica-cuchillas.webp', alt: 'Cuchillas de la cortadora de rollos' },
+];
+
+// Solo títulos: se muestran en una línea que se desplaza si no entra.
+const ventajas = [
+  'Envíos gratis',
+  'Fábrica propia',
+  'Por mayor y por menor',
+  'Medidas a pedido',
+  `${anios} años en el rubro`,
+];
+---
+<Base
+  title="Fábrica de rollos térmicos, obra y químico en Rosario | Rosario Rollos"
+  description="Fábrica de rollos de papel en Rosario desde 2005. Rollos térmicos, obra, químico, para posnet y comanderas, y etiquetas para Mercado Libre. Por mayor y por menor, con envíos propios.">
+
+  <!-- ============ BANNER CON CARRUSEL ============ -->
+  <section class="hero">
+    <HeroCarrusel imagenes={fotosBanner} intervalo={6000} />
+    <div class="contenedor hero__inner">
+      <p class="hero__eyebrow">Fábrica en Rosario · desde {EMPRESA.desde}</p>
+      <h1 class="hero__titulo">Rollos de papel<br />directo de fábrica</h1>
+      <p class="hero__bajada">
+        Térmicos, obra, químico y etiquetas autoadhesivas. Todas las medidas,
+        por mayor y por menor, con envío gratis a tu local.
+      </p>
+      <div class="hero__acciones">
+        <a class="boton" href="/productos">Ver todos los productos</a>
+        <a class="boton boton--wsp" href={urlWhatsapp('Hola, quería hacer un pedido / consulta.')} target="_blank" rel="noopener">
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VENTAJAS: UNA LÍNEA QUE SE DESPLAZA ============ -->
+  <section class="ventajas" aria-label="Por qué comprarnos">
+    <div class="ventajas__pista">
+      {[...ventajas, ...ventajas].map((v) => (
+        <span class="ventaja">{v}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ CATEGORÍAS ============ -->
+  <section class="contenedor seccion">
+    <p class="sobretitulo">Qué fabricamos</p>
+    <h2>Nuestros productos</h2>
+    <ul class="grilla">
+      {categorias.map((cat) => (
+        <li>
+          <a href={`/${cat.data.slug}`} class="tarjeta">
+            <FotoTarjeta foto={cat.data.foto} alt={cat.data.nombre} />
+            <span class="tarjeta__cuerpo">
+              <span class="tarjeta__nombre">{cat.data.nombre}</span>
+              {cat.data.descripcion && <span class="tarjeta__desc">{cat.data.descripcion}</span>}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- ============ MÁS PEDIDOS ============ -->
+  {destacados.length > 0 && (
+    <section class="destacados">
+      <div class="contenedor">
+        <p class="sobretitulo">Los que más salen</p>
+        <h2>Productos más pedidos</h2>
+        <ul class="grilla">
+          {destacados.map((p) => (
+            <li>
+              <TarjetaProducto producto={p} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <!-- ============ SOMOS FABRICANTES ============ -->
+  <section class="fabrica">
+    <div class="fabrica__fondo" aria-hidden="true"></div>
+    <div class="contenedor fabrica__inner">
+      <p class="sobretitulo">Desde {EMPRESA.desde}</p>
+      <h2 class="fabrica__tit">No revendemos:<br />fabricamos</h2>
+      <p class="fabrica__txt">
+        Hace {anios} años fabricamos nuestros propios rollos en Rosario. Por eso tenemos
+        stock permanente en las medidas más pedidas, podemos hacer medidas especiales
+        y sostener precios competitivos por cantidad.
+      </p>
+      <a class="boton boton--claro" href="/mayorista">Ver precios por mayor</a>
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  {faq.length > 0 && (
+    <section class="contenedor seccion">
+      <p class="sobretitulo">Dudas comunes</p>
+      <h2>Preguntas frecuentes</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details class="faq__item">
+            <summary><h3 class="faq__preg">{f.pregunta}</h3></summary>
+            <p class="faq__resp">{f.respuesta}</p>
+          </details>
+        ))}
+      </div>
+      <p class="faq__mas"><a href="/preguntas-frecuentes">Ver todas las preguntas →</a></p>
+    </section>
+  )}
+
+  {jsonLdFaq && <script type="application/ld+json" set:html={JSON.stringify(jsonLdFaq)} is:inline />}
+</Base>
+
+<style>
+  /* ---------- HERO ---------- */
+  .hero { position: relative; isolation: isolate; color: var(--blanco); overflow: hidden; }
+  .hero__inner {
+    padding-block: clamp(2.2rem, 5.5vw, 3.5rem); position: relative;
+    text-shadow: 0 1px 10px rgba(5, 30, 38, 0.45);
+  }
+  .hero__eyebrow {
+    text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.78rem;
+    font-weight: 600; color: var(--blanco); opacity: 0.85; margin: 0 0 0.5rem;
+  }
+  .hero__titulo {
+    color: var(--blanco); max-width: 16ch;
+    font-size: clamp(2rem, 5.2vw, 3.6rem);
+    /* Más aire entre renglones: con Oswald en mayúsculas las tildes
+       de la segunda línea se encimaban con la primera. */
+    line-height: 1.18;
+  }
+  .hero__bajada {
+    max-width: 46ch; margin: 0.8rem 0 1.4rem;
+    font-size: clamp(0.98rem, 1.6vw, 1.1rem); color: var(--blanco);
+  }
+  .hero__acciones { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+
+  /* ---------- VENTAJAS: una línea que se desplaza ---------- */
+  .ventajas {
+    background: var(--blanco);
+    border-bottom: 1px solid var(--celeste-claro);
+    overflow: hidden;
+    padding-block: 0.85rem;
+  }
+  .ventajas__pista {
+    display: flex;
+    width: max-content;
+    animation: correr 34s linear infinite;
+  }
+  .ventaja {
+    font-family: var(--fuente-titulo); text-transform: uppercase;
+    font-size: 0.95rem; font-weight: 600; letter-spacing: 0.05em;
+    color: var(--celeste-profundo);
+    white-space: nowrap;
+    padding-inline: 1.6rem;
+    position: relative;
+  }
+  /* Punto separador entre frases */
+  .ventaja::after {
+    content: '•';
+    position: absolute; right: -0.35rem;
+    color: var(--verde-menta);
+  }
+  @keyframes correr {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ventajas__pista { animation: none; }
+  }
+
+  /* ---------- SECCIONES ---------- */
+  .seccion { padding-block: clamp(2.2rem, 5vw, 3.5rem); }
+
+  /* ---------- GRILLA DE TARJETAS: 2 por línea en celular ---------- */
+  .grilla {
+    list-style: none; padding: 0; margin: 1.4rem 0 0;
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (min-width: 620px) {
+    .grilla { gap: 1.1rem; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  }
+
+  .tarjeta {
+    display: flex; flex-direction: column; height: 100%;
+    background: var(--blanco); border-radius: var(--radio); overflow: hidden;
+    text-decoration: none; color: var(--celeste-profundo);
+    box-shadow: var(--sombra); transition: transform 0.15s ease;
+  }
+  .tarjeta:hover { transform: translateY(-3px); }
+  .tarjeta__foto {
+    width: 100%; aspect-ratio: 16 / 10; object-fit: cover; background: var(--gris-suave);
+  }
+  .tarjeta__foto--prod { object-fit: contain; aspect-ratio: 4 / 3; padding: 0.4rem; }
+  .tarjeta__cuerpo {
+    display: flex; flex-direction: column; gap: 0.25rem;
+    padding: 0.75rem 0.85rem 0.9rem; flex: 1;
+  }
+  .tarjeta__nombre {
+    font-family: var(--fuente-titulo); text-transform: uppercase;
+    font-weight: 600; font-size: 0.98rem; line-height: 1.1;
+  }
+  .tarjeta__medida { font-size: 0.78rem; color: var(--verde); font-weight: 600; }
+  .tarjeta__desc { font-size: 0.8rem; color: #5a6e75; line-height: 1.35; }
+  .tarjeta__cta {
+    margin-top: auto; padding-top: 0.5rem;
+    font-size: 0.8rem; font-weight: 600; color: var(--verde-menta);
+  }
+  @media (min-width: 620px) {
+    .tarjeta__nombre { font-size: 1.1rem; }
+    .tarjeta__desc { font-size: 0.88rem; }
+    .tarjeta__cuerpo { padding: 1rem 1.1rem 1.2rem; }
+  }
+
+  .destacados { background: var(--celeste-claro); padding-block: clamp(2.2rem, 5vw, 3.5rem); }
+
+  /* ---------- FÁBRICA ---------- */
+  .fabrica { position: relative; isolation: isolate; color: var(--blanco); }
+  .fabrica__fondo {
+    position: absolute; inset: 0; z-index: -1;
+    background-image:
+      linear-gradient(90deg, rgba(15,60,76,0.94) 10%, rgba(15,60,76,0.6) 100%),
+      url('/imagenes/caja-rollos.webp');
+    background-size: cover; background-position: center 35%;
+  }
+  .fabrica__inner { padding-block: clamp(2.5rem, 7vw, 4.5rem); }
+  .fabrica__tit { color: var(--blanco); }
+  .fabrica__txt { max-width: 52ch; color: #e4f2f7; margin: 0.9rem 0 1.6rem; }
+
+  /* ---------- FAQ ---------- */
+  .faq { display: grid; gap: 0.6rem; margin-top: 1.4rem; max-width: 78ch; }
+  .faq__item { background: var(--blanco); border-radius: var(--radio); border: 1px solid var(--celeste-claro); }
+  .faq__item summary {
+    cursor: pointer; padding: 0.9rem 1.1rem; list-style: none; min-height: var(--toque-min);
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__item summary::after { content: '+'; font-size: 1.5rem; color: var(--verde-menta); line-height: 1; }
+  .faq__item[open] summary::after { content: '−'; }
+  .faq__preg { font-size: 0.98rem; margin: 0; text-transform: none; font-family: var(--fuente); font-weight: 600; }
+  .faq__resp { padding: 0 1.1rem 1.1rem; margin: 0; color: #5a6e75; }
+  .faq__mas { margin-top: 1rem; font-weight: 600; }
+</style>

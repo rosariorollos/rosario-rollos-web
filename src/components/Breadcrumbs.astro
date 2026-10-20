@@ -1,0 +1,39 @@
+---
+interface Props {
+  /** Ej: [{ texto: 'Productos', href: '/productos' }, { texto: 'Rollos térmicos' }] */
+  items: { texto: string; href?: string }[];
+}
+const { items } = Astro.props;
+const todos = [{ texto: 'Inicio', href: '/' }, ...items];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: todos.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.texto,
+    ...(item.href ? { item: new URL(item.href, Astro.site).href } : {}),
+  })),
+};
+---
+<nav class="miga" aria-label="Ruta de navegación">
+  <ol class="miga__lista">
+    {todos.map((item, i) => (
+      <li class="miga__item">
+        {item.href && i < todos.length - 1
+          ? <a href={item.href}>{item.texto}</a>
+          : <span aria-current="page">{item.texto}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+
+<style>
+  .miga { padding-block: 1rem 0; font-size: 0.88rem; }
+  .miga__lista { list-style: none; display: flex; flex-wrap: wrap; gap: 0.35rem; padding: 0; margin: 0; }
+  .miga__item + .miga__item::before { content: '›'; margin-right: 0.35rem; color: var(--verde); }
+  .miga a { color: var(--verde); }
+  .miga span { color: var(--gris-texto); }
+</style>

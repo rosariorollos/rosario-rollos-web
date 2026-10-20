@@ -1,0 +1,41 @@
+{
+  "nombre": "Rollos para taxi",
+  "slug": "rollos-taxi",
+  "descripcion": "Para relojes taxímetros: Digitax, Ariel, Fullmar y compatibles.",
+  "orden": 5,
+  "destacada": false,
+  "icono": "car",
+  "seoTitle": "Rollos para taxímetro en Rosario — Digitax, Ariel, Fullmar | Rosario Rollos",
+  "seoDescription": "Rollos para relojes taxímetros en Rosario: Digitax SELF, Digitax Térmico, Ariel y Fullmar. De fábrica, por mayor y por menor. Pedí por WhatsApp.",
+  "intro": "Fabricamos rollos para relojes taxímetros. A diferencia del resto de los rollos, estos no se piden por medida sino por marca y modelo de reloj, porque cada equipo usa su formato.",
+  "guiaMedidas": [
+    { "equipo": "Reloj Digitax (versión self / autocopiativo)", "medida": "Digitax SELF" },
+    { "equipo": "Reloj Digitax (versión térmica)", "medida": "Digitax Térmico" },
+    { "equipo": "Reloj Ariel", "medida": "Ariel" },
+    { "equipo": "Reloj Fullmar", "medida": "Fullmar" }
+  ],
+  "secciones": [
+    {
+      "titulo": "Se piden por marca de reloj, no por medida",
+      "texto": "Cada reloj taxímetro usa su propio formato de rollo, así que lo importante no es la medida sino la marca y el modelo de tu equipo. Trabajamos Digitax (en versión self y térmica), Ariel y Fullmar.\n\nSi no sabés qué reloj tenés, mandanos una foto del equipo o del rollo que estás usando y te decimos cuál necesitás."
+    },
+    {
+      "titulo": "Para taxistas y flotas",
+      "texto": "Vendemos tanto al taxista que compra para su auto como a flotas, agencias y mutuales que compran por cantidad para sus asociados.\n\nSi manejás una flota o una agencia, consultanos por precios mayoristas."
+    }
+  ],
+  "preguntas": [
+    {
+      "pregunta": "¿Qué rollo usa mi taxímetro?",
+      "respuesta": "Depende de la marca y modelo de tu reloj. Trabajamos Digitax SELF, Digitax Térmico, Ariel y Fullmar. Si no estás seguro, mandanos una foto del reloj o del rollo que estás usando y te lo confirmamos."
+    },
+    {
+      "pregunta": "¿Cuál es la diferencia entre el Digitax SELF y el Digitax Térmico?",
+      "respuesta": "Son para distintas versiones del reloj: el SELF usa papel autocopiativo (deja copia) y el térmico usa papel que imprime por calor. Si tenés dudas sobre cuál usa tu equipo, consultanos."
+    },
+    {
+      "pregunta": "¿Venden por cantidad para agencias o flotas?",
+      "respuesta": "Sí. Vendemos tanto por unidad al taxista como por cantidad a flotas, agencias y mutuales. Consultanos por precios mayoristas."
+    }
+  ]
+}

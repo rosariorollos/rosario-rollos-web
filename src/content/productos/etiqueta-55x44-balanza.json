@@ -1,0 +1,35 @@
+{
+  "nombre": "Etiquetas 55x44 para balanzas",
+  "slug": "55x44-balanza",
+  "categoria": "etiquetas-autoadhesivas",
+  "medida": "55 mm x 44 mm",
+  "color": "Blanco",
+  "tipoPapel": "Etiqueta térmica autoadhesiva",
+  "paginaPropia": true,
+  "destacado": true,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Etiquetas para balanzas impresoras de carnicerías, fiambrerías, verdulerías y supermercados.",
+  "descripcion": "Etiquetas térmicas autoadhesivas blancas. Medida: 55 mm x 44 mm.\n\nCompatibles con balanzas impresoras y etiquetadoras térmicas que admitan este formato. Ideales para carnicerías, fiambrerías, verdulerías, panaderías y supermercados.\n\nPermiten imprimir precios, pesos, códigos de barras y datos del producto. La compatibilidad exacta depende del modelo de balanza o etiquetadora.",
+  "compatibilidades": [
+    "Balanzas impresoras",
+    "Etiquetadoras térmicas"
+  ],
+  "usos": [
+    "Carnicerías",
+    "Fiambrerías",
+    "Verdulerías",
+    "Panaderías",
+    "Supermercados"
+  ],
+  "orden": 2,
+  "foto": "/imagenes/etiqueta-55x44.webp",
+  "ordenDestacado": 3
+}

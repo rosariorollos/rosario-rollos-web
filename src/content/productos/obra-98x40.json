@@ -1,0 +1,22 @@
+{
+  "nombre": "Rollo obra 98x40",
+  "slug": "98x40",
+  "categoria": "rollos-obra",
+  "medida": "98x40",
+  "paginaPropia": false,
+  "destacado": false,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Papel obra extra blanco 98x40, gramaje 57 g.",
+  "descripcion": "",
+  "compatibilidades": [],
+  "usos": [],
+  "orden": 5
+}

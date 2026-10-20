@@ -1,0 +1,139 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { urlWhatsapp } from '../config';
+
+// Índice de búsqueda: se genera en el build, se filtra en el navegador.
+const productos = await getCollection('productos');
+const categorias = await getCollection('categorias');
+
+const indice = [
+  ...categorias.map((c) => ({
+    tipo: 'Categoría',
+    nombre: c.data.nombre,
+    url: `/${c.data.slug}`,
+    detalle: c.data.descripcion,
+    buscable: [c.data.nombre, c.data.descripcion, c.data.slug].join(' ').toLowerCase(),
+  })),
+  ...productos.map((p) => ({
+    tipo: 'Producto',
+    nombre: p.data.nombre,
+    url: p.data.paginaPropia ? `/${p.data.categoria}/${p.data.slug}` : `/${p.data.categoria}`,
+    detalle: p.data.descripcionCorta || p.data.medida,
+    buscable: [
+      p.data.nombre, p.data.medida, p.data.descripcionCorta, p.data.slug,
+      ...p.data.usos, ...p.data.compatibilidades,
+    ].join(' ').toLowerCase(),
+  })),
+];
+---
+<Base title="Buscar productos | Rosario Rollos"
+      description="Buscá por medida, tipo de papel o equipo: 80x50, posnet, comandera, etiquetas para Mercado Libre y más."
+      noindex={true}>
+
+  <div class="contenedor seccion">
+    <p class="sobretitulo">Buscador</p>
+    <h1 class="busq__tit">Buscar</h1>
+
+    <form class="busq__form" action="/buscar" method="get" role="search">
+      <label class="visualmente-oculto" for="q2">Buscar</label>
+      <input class="busq__campo" type="search" id="q2" name="q" autocomplete="off"
+             placeholder="Ej: 80x50, posnet, comandera, etiquetas 10x15…" />
+      <button class="boton" type="submit">Buscar</button>
+    </form>
+
+    <p class="busq__estado" id="estado"></p>
+    <ul class="busq__lista" id="resultados"></ul>
+
+    <div class="busq__ayuda" id="ayuda" hidden>
+      <h2>¿No encontraste lo que buscabas?</h2>
+      <p>Mandanos una foto del rollo que usás o el modelo de tu equipo y te decimos cuál necesitás.</p>
+      <a class="boton boton--wsp" href={urlWhatsapp('Hola, no encontré lo que buscaba en la web.')} target="_blank" rel="noopener">
+        Consultar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <script define:vars={{ indice }}>
+    const campo = document.getElementById('q2');
+    const lista = document.getElementById('resultados');
+    const estado = document.getElementById('estado');
+    const ayuda = document.getElementById('ayuda');
+
+    // Normaliza: minúsculas y sin acentos, para que "termico" encuentre "térmico".
+    const limpiar = (t) => (t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+    function buscar(termino) {
+      const t = limpiar(termino).trim();
+      lista.innerHTML = '';
+      if (!t) {
+        estado.textContent = 'Escribí una medida, un tipo de papel o el equipo donde lo usás.';
+        ayuda.hidden = true;
+        return;
+      }
+      const palabras = t.split(/\s+/);
+      const hallados = indice.filter((i) => {
+        const texto = limpiar(i.buscable);
+        return palabras.every((p) => texto.includes(p));
+      });
+
+      estado.textContent = hallados.length
+        ? `${hallados.length} resultado${hallados.length === 1 ? '' : 's'} para "${termino}"`
+        : `Sin resultados para "${termino}".`;
+      ayuda.hidden = hallados.length > 0;
+
+      for (const h of hallados) {
+        const li = document.createElement('li');
+        li.className = 'busq__item';
+        const a = document.createElement('a');
+        a.href = h.url;
+        a.className = 'busq__link';
+        a.innerHTML = `<span class="busq__tipo">${h.tipo}</span>
+                       <span class="busq__nombre"></span>
+                       <span class="busq__detalle"></span>`;
+        a.querySelector('.busq__nombre').textContent = h.nombre;
+        a.querySelector('.busq__detalle').textContent = h.detalle || '';
+        li.appendChild(a);
+        lista.appendChild(li);
+      }
+    }
+
+    // Toma el término de la URL (?q=) al entrar.
+    const inicial = new URLSearchParams(location.search).get('q') || '';
+    campo.value = inicial;
+    buscar(inicial);
+    campo.addEventListener('input', () => buscar(campo.value));
+  </script>
+</Base>
+
+<style>
+  .seccion { padding-block: clamp(2rem, 5vw, 3.5rem); }
+  .busq__tit { margin-bottom: 1.25rem; }
+  .busq__form { display: flex; gap: 0.6rem; flex-wrap: wrap; max-width: 620px; }
+  .busq__campo {
+    flex: 1 1 260px; min-height: var(--toque-min);
+    padding: 0.6rem 1.1rem; font-family: inherit; font-size: 1rem;
+    border: 2px solid var(--celeste-claro); border-radius: 999px;
+    background: var(--blanco); color: inherit;
+  }
+  .busq__campo:focus { outline: none; border-color: var(--verde-menta); }
+  .busq__estado { margin-top: 1.25rem; color: #5a6e75; font-size: 0.95rem; }
+  .busq__lista { list-style: none; padding: 0; margin: 0.75rem 0 0; display: grid; gap: 0.6rem; max-width: 760px; }
+  .busq__link {
+    display: grid; gap: 0.15rem; padding: 0.9rem 1.1rem;
+    background: var(--blanco); border: 1px solid var(--celeste-claro);
+    border-radius: var(--radio); text-decoration: none; color: var(--celeste-profundo);
+  }
+  .busq__link:hover { border-color: var(--verde-menta); }
+  .busq__tipo {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em;
+    font-weight: 600; color: var(--verde-menta);
+  }
+  .busq__nombre { font-family: var(--fuente-titulo); text-transform: uppercase; font-size: 1.1rem; font-weight: 600; }
+  .busq__detalle { font-size: 0.9rem; color: #5a6e75; }
+  .busq__ayuda {
+    margin-top: 2rem; padding: 1.4rem; border-radius: var(--radio);
+    background: var(--celeste-claro); max-width: 620px;
+  }
+  .busq__ayuda h2 { font-size: 1.25rem; margin-top: 0; }
+</style>

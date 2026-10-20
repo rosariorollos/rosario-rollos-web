@@ -1,0 +1,246 @@
+---
+/**
+ * Buscador con sugerencias en vivo.
+ * Al escribir muestra los productos que coinciden; al tocar uno
+ * se va directo a su página. El índice se descarga una sola vez.
+ */
+---
+<div class="busca" data-busca>
+  <form class="busca__form" action="/buscar" method="get" role="search" autocomplete="off">
+    <label class="visualmente-oculto" for="q">Buscar productos</label>
+    <input
+      class="busca__campo" type="search" id="q" name="q"
+      placeholder="Buscá tu medida: 80x50, posnet…"
+      autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" role="combobox" aria-expanded="false"
+      aria-controls="busca-lista" aria-autocomplete="list"
+      data-campo
+    />
+    <button class="busca__boton" type="submit" aria-label="Buscar">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+           stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" />
+      </svg>
+    </button>
+  </form>
+
+  <ul class="sugerencias" id="busca-lista" role="listbox" hidden data-lista></ul>
+</div>
+
+<script>
+  const limpiar = (t) => (t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+  for (const caja of document.querySelectorAll('[data-busca]')) {
+    const campo = caja.querySelector('[data-campo]');
+    const lista = caja.querySelector('[data-lista]');
+    let indice = null;
+    let cargando = false;
+    let marcado = -1;
+
+    async function cargarIndice() {
+      if (indice || cargando) return;
+      cargando = true;
+      try {
+        const r = await fetch('/indice-busqueda.json');
+        indice = await r.json();
+        for (const it of indice) it._p = it.b.split(/s+/).filter(Boolean);
+      } catch { indice = []; }
+      cargando = false;
+    }
+
+    function cerrar() {
+      lista.hidden = true;
+      lista.innerHTML = '';
+      campo.setAttribute('aria-expanded', 'false');
+      marcado = -1;
+    }
+
+    function pintar(resultados, termino) {
+      lista.innerHTML = '';
+      if (!resultados.length) {
+        const li = document.createElement('li');
+        li.className = 'sugerencias__vacio';
+        li.textContent = `Sin resultados para "${termino}"`;
+        lista.appendChild(li);
+      } else {
+        resultados.forEach((r, i) => {
+          const li = document.createElement('li');
+          li.setAttribute('role', 'option');
+          const a = document.createElement('a');
+          a.href = r.u;
+          a.className = 'sugerencia';
+          a.dataset.i = String(i);
+
+          const n = document.createElement('span');
+          n.className = 'sugerencia__nombre';
+          n.textContent = r.n;
+          a.appendChild(n);
+
+          if (r.m) {
+            const d = document.createElement('span');
+            d.className = 'sugerencia__detalle';
+            d.textContent = r.m;
+            a.appendChild(d);
+          }
+
+          li.appendChild(a);
+          lista.appendChild(li);
+        });
+      }
+      lista.hidden = false;
+      campo.setAttribute('aria-expanded', 'true');
+    }
+
+    async function buscar() {
+      const termino = campo.value.trim();
+      // Desde la primera letra ya sugerimos.
+      if (termino.length < 1) return cerrar();
+      await cargarIndice();
+
+      const palabras = limpiar(termino).split(/\s+/).filter(Boolean);
+      if (!palabras.length) return cerrar();
+
+      // Coincide si alguna palabra del producto EMPIEZA con lo tecleado
+      // ("o"/"ob" -> obra, "et" -> etiquetas, "80" -> 80x50...),
+      // o si aparece como parte de alguna palabra.
+      const coincide = (it, w) =>
+        it._p.some((pal) => pal.startsWith(w)) || it.b.includes(w);
+
+      const puntuar = (it) => {
+        const nombre = limpiar(it.n);
+        const palNombre = nombre.split(/\s+/);
+        let p = 0;
+        for (const w of palabras) {
+          if (nombre.startsWith(w)) p += 120;              // el nombre arranca con eso
+          else if (palNombre.some((x) => x.startsWith(w))) p += 90;  // alguna palabra del nombre
+          else if (nombre.includes(w)) p += 60;            // está en el nombre
+          else if (it._p.some((x) => x.startsWith(w))) p += 30;      // está en el detalle
+          else p += 10;
+          if (limpiar(it.m).startsWith(w)) p += 40;        // coincide con la medida
+        }
+        // Los más vendidos primero cuando la búsqueda es amplia (ej: "r")
+        p += Math.max(0, 40 - (it.d ?? 99));
+        if (it.t === 'Producto') p += 5;
+        return p;
+      };
+
+      const hallados = indice
+        .filter((it) => palabras.every((w) => coincide(it, w)))
+        .map((it) => ({ it, p: puntuar(it) }))
+        .sort((a, b) => b.p - a.p)
+        .slice(0, 8)
+        .map((x) => x.it);
+
+      pintar(hallados, termino);
+    }
+
+    campo.addEventListener('focus', cargarIndice);
+    campo.addEventListener('input', buscar);
+
+    // Flechas + Enter para elegir con el teclado
+    campo.addEventListener('keydown', (e) => {
+      const opciones = lista.querySelectorAll('.sugerencia');
+      if (!opciones.length) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        marcado = e.key === 'ArrowDown'
+          ? (marcado + 1) % opciones.length
+          : (marcado - 1 + opciones.length) % opciones.length;
+        opciones.forEach((o, i) => o.classList.toggle('sugerencia--activa', i === marcado));
+      } else if (e.key === 'Enter' && marcado >= 0) {
+        e.preventDefault();
+        window.location.href = opciones[marcado].href;
+      } else if (e.key === 'Escape') {
+        cerrar();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!caja.contains(e.target)) cerrar();
+    });
+  }
+</script>
+
+<style>
+  .busca { position: relative; flex: 1 1 auto; max-width: 520px; margin-inline: auto; }
+  .busca__form { display: flex; }
+  .busca__campo {
+    flex: 1; min-width: 0; min-height: var(--toque-min);
+    padding: 0.5rem 1rem; font-family: inherit; font-size: 0.95rem;
+    border: 2px solid var(--celeste-claro); border-right: none;
+    border-radius: 999px 0 0 999px; background: var(--celeste-hielo); color: inherit;
+  }
+  .busca__campo:focus { outline: none; border-color: var(--verde-menta); }
+  .busca__boton {
+    display: grid; place-items: center;
+    min-width: 52px; min-height: var(--toque-min);
+    border: 2px solid var(--verde-menta); background: var(--verde-menta);
+    color: var(--blanco); border-radius: 0 999px 999px 0; cursor: pointer;
+  }
+  .busca__boton:hover { background: var(--verde); border-color: var(--verde); }
+
+</style>
+
+<style is:global>
+/* Lista de sugerencias: una barra por producto, solo texto. */
+  .sugerencias {
+    position: absolute; top: calc(100% + 0.4rem); left: 0; right: 0; z-index: 60;
+    list-style: none; margin: 0; padding: 0.4rem;
+    background: var(--blanco); border: 1px solid var(--celeste-claro);
+    border-radius: var(--radio); box-shadow: 0 12px 32px rgba(15, 60, 76, 0.18);
+    max-height: 60vh; overflow-y: auto;
+    display: grid; gap: 0.35rem;
+  }
+  .sugerencia {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: var(--radio-chico);
+    background: var(--celeste-hielo);
+    border: 1px solid var(--celeste-claro);
+    text-decoration: none;
+    color: var(--celeste-profundo);
+    min-height: var(--toque-min);
+    overflow: hidden;
+  }
+  .sugerencia:hover,
+  .sugerencia:focus,
+  .sugerencia--activa {
+    background: var(--verde-menta);
+    border-color: var(--verde-menta);
+    color: var(--blanco);
+    text-decoration: none;
+  }
+  .sugerencia__nombre {
+    font-family: var(--fuente-titulo);
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    text-decoration: none;
+  }
+  .sugerencia__detalle {
+    font-family: var(--fuente-titulo);
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    opacity: 0.7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 45%;
+    flex-shrink: 1;
+  }
+  @media (max-width: 420px) {
+    .sugerencia__detalle { display: none; }
+  }
+  .sugerencias__vacio {
+    padding: 0.85rem 0.9rem;
+    font-family: var(--fuente-titulo);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    color: #5a6e75;
+  }
+</style>

@@ -1,0 +1,22 @@
+{
+  "name": "rosario-rollos-web",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.13.0",
+    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/partytown": "^2.1.4",
+    "@astrojs/preact": "^4.1.0",
+    "preact": "^10.27.0",
+    "nanostores": "^1.0.1",
+    "@nanostores/preact": "^1.0.0",
+    "@nanostores/persistent": "^1.1.0"
+  }
+}

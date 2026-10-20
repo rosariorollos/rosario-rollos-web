@@ -1,0 +1,227 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import TablaMedidas from '../components/TablaMedidas.astro';
+import { EMPRESA, urlWhatsapp } from '../config';
+
+export async function getStaticPaths() {
+  const categorias = await getCollection('categorias');
+  const productos = await getCollection('productos');
+
+  return categorias.map((cat) => ({
+    params: { categoria: cat.data.slug },
+    props: {
+      cat: cat.data,
+      productos: productos
+        .filter((p) => p.data.categoria === cat.data.slug)
+        .map((p) => p.data)
+        .sort((a, b) => a.orden - b.orden),
+    },
+  }));
+}
+
+const { cat, productos } = Astro.props;
+
+const title = cat.seoTitle ?? `${cat.nombre} en Rosario — todas las medidas | Rosario Rollos`;
+const description = cat.seoDescription ?? `${cat.descripcion} Somos fabricantes en Rosario: vendemos por mayor y por menor, con envíos propios. Pedí por WhatsApp.`;
+
+// Las fichas con página propia se destacan arriba (son las que más se buscan).
+const destacados = productos.filter((p) => p.paginaPropia);
+
+// FAQPage con las preguntas de la categoría → puede aparecer desplegado en Google.
+const jsonLd = cat.preguntas.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: cat.preguntas.map((p) => ({
+        '@type': 'Question',
+        name: p.pregunta,
+        acceptedAnswer: { '@type': 'Answer', text: p.respuesta },
+      })),
+    }
+  : null;
+---
+<Base title={title} description={description}>
+  <div class="contenedor">
+    <Breadcrumbs items={[{ texto: 'Productos', href: '/productos' }, { texto: cat.nombre }]} />
+
+    <header class="cat-cab">
+      <h1>{cat.nombre}</h1>
+      {cat.intro
+        ? <p class="cat-cab__bajada">{cat.intro}</p>
+        : <p class="cat-cab__bajada">{cat.descripcion}</p>}
+      <div class="cat-cab__acciones">
+        <a class="boton boton--wsp" href={urlWhatsapp(`Hola, quería consultar por ${cat.nombre.toLowerCase()}.`)}
+           target="_blank" rel="noopener">Consultar por WhatsApp</a>
+      </div>
+    </header>
+
+    {/* --- Más buscados de la categoría --- */}
+    {destacados.length > 0 && (
+      <section class="cat-dest">
+        <h2 class="cat-sub">Los más pedidos</h2>
+        <ul class="cat-dest__grid">
+          {destacados.map((p) => (
+            <li>
+              <a href={`/${cat.slug}/${p.slug}`} class="cat-dest__card">
+                {p.foto && (
+                  <img class="cat-dest__foto" src={p.foto} alt={p.nombre}
+                       width="240" height="180" loading="lazy" decoding="async" />
+                )}
+                <span class="cat-dest__nombre">{p.nombre}</span>
+                <span class="cat-dest__desc">{p.descripcionCorta}</span>
+                <span class="cat-dest__ver">Ver detalle →</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {/* --- Tabla de medidas con botón de pedido --- */}
+    {productos.length === 0 ? (
+      <p class="cat-vacia">
+        Estamos cargando las medidas de esta categoría. Escribinos por WhatsApp y te pasamos
+        disponibilidad y precios al momento.
+      </p>
+    ) : (
+      <section>
+        <h2 class="cat-sub">Todas las medidas disponibles</h2>
+        <p class="cat-nota">
+          Trabajamos por mayor y por menor. Agregá las medidas que necesités a tu pedido y te
+          confirmamos precio y entrega por WhatsApp.
+        </p>
+        <TablaMedidas productos={productos} categoriaSlug={cat.slug} />
+      </section>
+    )}
+
+    {/* --- Guía: qué medida necesita cada equipo --- */}
+    {cat.guiaMedidas.length > 0 && (
+      <section class="cat-bloque">
+        <h2 class="cat-sub">¿Qué medida necesito?</h2>
+        <p class="cat-nota">
+          Si no estás seguro, mandanos una foto de tu impresora o del rollo que estás usando y
+          te decimos cuál es.
+        </p>
+        <div class="cat-tabla-wrap">
+          <table class="cat-guia">
+            <thead>
+              <tr><th>Equipo o uso</th><th>Medida recomendada</th></tr>
+            </thead>
+            <tbody>
+              {cat.guiaMedidas.map((g) => (
+                <tr><td>{g.equipo}</td><td><strong>{g.medida}</strong></td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
+    {/* --- Secciones de contenido editables --- */}
+    {cat.secciones.map((s) => (
+      <section class="cat-bloque">
+        <h2 class="cat-sub">{s.titulo}</h2>
+        {s.texto.split('\n\n').map((p) => <p class="cat-texto">{p}</p>)}
+      </section>
+    ))}
+
+    {/* --- Preguntas frecuentes de la categoría --- */}
+    {cat.preguntas.length > 0 && (
+      <section class="cat-bloque">
+        <h2 class="cat-sub">Preguntas frecuentes sobre {cat.nombre.toLowerCase()}</h2>
+        <div class="cat-faq">
+          {cat.preguntas.map((p) => (
+            <details class="cat-faq__item">
+              <summary><h3 class="cat-faq__preg">{p.pregunta}</h3></summary>
+              <p class="cat-faq__resp">{p.respuesta}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {/* --- Cierre --- */}
+    <section class="cat-cierre">
+      <h2>¿Necesitás una medida que no figura?</h2>
+      <p>
+        Fabricamos rollos a medida según lo que necesite tu equipo. Escribinos y lo resolvemos.
+      </p>
+      <div class="cat-cab__acciones">
+        <a class="boton boton--wsp" href={urlWhatsapp(`Hola, necesito una medida especial de ${cat.nombre.toLowerCase()}.`)}
+           target="_blank" rel="noopener">Consultar medida especial</a>
+        <a class="boton boton--fantasma" href="/mayorista">Ver precios por mayor</a>
+      </div>
+    </section>
+  </div>
+
+  {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />}
+</Base>
+
+<style>
+  .cat-cab { padding-block: 1rem 0.5rem; }
+  .cat-cab h1 { font-size: clamp(1.7rem, 5vw, 2.6rem); margin: 0.25rem 0 0.5rem; }
+  .cat-cab__bajada { max-width: 65ch; font-size: 1.05rem; color: #4a5a55; }
+  .cat-cab__acciones { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1rem; }
+
+  .cat-sub { font-size: 1.25rem; margin-top: 2rem; }
+  .cat-nota { max-width: 65ch; color: #4a5a55; font-size: 0.95rem; }
+  .cat-texto { max-width: 68ch; }
+  .cat-bloque { margin-top: 1rem; }
+  .cat-vacia { max-width: 60ch; padding: 1.25rem; background: var(--gris-suave); border-radius: var(--radio); }
+
+  /* Más pedidos */
+  .cat-dest__grid {
+    list-style: none; padding: 0; margin: 1rem 0 0;
+    display: grid; gap: 0.8rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (min-width: 620px) {
+    .cat-dest__grid { gap: 1.1rem; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  }
+  .cat-dest__card {
+    display: flex; flex-direction: column; height: 100%;
+    background: var(--blanco); border-radius: var(--radio); overflow: hidden;
+    border: 2px solid transparent; box-shadow: var(--sombra);
+    text-decoration: none; color: var(--celeste-profundo);
+  }
+  .cat-dest__foto {
+    width: 100%; aspect-ratio: 4 / 3; object-fit: contain;
+    background: var(--gris-suave); padding: 0.4rem;
+  }
+  .cat-dest__card:hover { border-color: var(--verde-menta); }
+  .cat-dest__nombre {
+    font-family: var(--fuente-titulo); text-transform: uppercase;
+    font-weight: 600; font-size: 0.98rem; line-height: 1.1;
+    padding: 0.7rem 0.85rem 0;
+  }
+  .cat-dest__desc { font-size: 0.8rem; color: #5a6e75; padding: 0.25rem 0.85rem 0; line-height: 1.35; }
+  .cat-dest__ver { margin-top: auto; font-size: 0.8rem; font-weight: 600; color: var(--verde-menta); padding: 0.5rem 0.85rem 0.9rem; }
+
+  /* Guía de medidas */
+  .cat-tabla-wrap { overflow-x: auto; margin-top: 1rem; }
+  .cat-guia { border-collapse: collapse; width: 100%; min-width: 420px; font-size: 0.95rem; }
+  .cat-guia th, .cat-guia td { text-align: left; padding: 0.65rem 0.8rem; border-bottom: 1px solid var(--verde-menta-claro); }
+  .cat-guia th { background: var(--gris-suave); color: var(--verde-oscuro); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* FAQ */
+  .cat-faq { display: grid; gap: 0.7rem; margin-top: 1rem; max-width: 75ch; }
+  .cat-faq__item { border: 2px solid var(--verde-menta-claro); border-radius: var(--radio); background: var(--blanco); }
+  .cat-faq__item summary {
+    cursor: pointer; padding: 0.85rem 1.05rem; list-style: none; min-height: var(--toque-min);
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .cat-faq__item summary::-webkit-details-marker { display: none; }
+  .cat-faq__item summary::after { content: '+'; font-size: 1.35rem; color: var(--verde); line-height: 1; }
+  .cat-faq__item[open] summary::after { content: '−'; }
+  .cat-faq__preg { font-size: 1rem; margin: 0; }
+  .cat-faq__resp { padding: 0 1.05rem 1.05rem; margin: 0; color: #4a5a55; }
+
+  .cat-cierre {
+    margin-top: 2.5rem; padding: 1.5rem; border-radius: var(--radio);
+    background: var(--gris-suave); max-width: 75ch;
+  }
+  .cat-cierre h2 { font-size: 1.2rem; margin-top: 0; }
+  .cat-cierre p { max-width: 60ch; }
+</style>

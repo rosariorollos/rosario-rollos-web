@@ -1,0 +1,43 @@
+---
+import { EMPRESA } from '../config';
+const anioActual = new Date().getFullYear();
+---
+<footer class="pie">
+  <div class="contenedor pie__grid">
+    <div>
+      <p class="pie__marca">
+        <img src="/imagenes/logo-rr.png" alt="" width="200" height="200" loading="lazy" decoding="async" />
+        <span>Rosario Rollos</span>
+      </p>
+      <p>Fábrica de rollos de papel fiscal en Rosario desde {EMPRESA.desde}.</p>
+    </div>
+    <div>
+      <h2 class="pie__tit">Contacto</h2>
+      <p>WhatsApp: {EMPRESA.whatsappVisible}</p>
+      <p>Teléfono: {EMPRESA.telefonoFijo}</p>
+      <p>Email: {EMPRESA.email}</p>
+    </div>
+    <div>
+      <h2 class="pie__tit">Dónde estamos</h2>
+      <p>{EMPRESA.direccion}</p>
+      <p>{EMPRESA.horarios}</p>
+    </div>
+  </div>
+  <div class="contenedor pie__base">
+    <p>© {anioActual} Rosario Rollos</p>
+  </div>
+</footer>
+
+<style>
+  .pie { background: var(--verde-oscuro); color: #d9f2ec; margin-top: 3rem; padding-top: 2.5rem; }
+  .pie__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+  .pie__tit { color: var(--blanco); font-size: 1rem; margin: 0 0 0.5rem; }
+  .pie p { margin: 0.2rem 0; }
+  .pie__marca {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: var(--fuente-titulo); text-transform: uppercase;
+    font-weight: 600; color: var(--blanco); font-size: 1.2rem; letter-spacing: 0.02em;
+  }
+  .pie__marca img { width: 42px; height: 42px; object-fit: contain; }
+  .pie__base { border-top: 1px solid rgba(255,255,255,0.12); margin-top: 2rem; padding-block: 1rem; }
+</style>

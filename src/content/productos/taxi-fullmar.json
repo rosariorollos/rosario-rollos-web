@@ -1,0 +1,26 @@
+{
+  "nombre": "Rollo para taxímetro Fullmar",
+  "slug": "fullmar",
+  "categoria": "rollos-taxi",
+  "medida": "",
+  "paginaPropia": false,
+  "destacado": false,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Rollo para reloj taxímetro Fullmar.",
+  "descripcion": "",
+  "compatibilidades": [
+    "Fullmar"
+  ],
+  "usos": [
+    "Relojes taxímetros"
+  ],
+  "orden": 4
+}

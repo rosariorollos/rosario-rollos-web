@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { EMPRESA, urlWhatsapp } from '../config';
+
+// LocalBusiness para búsquedas locales ("papelera rosario", "rollos rosario").
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: EMPRESA.nombre,
+  description: 'Fábrica y distribución de rollos de papel fiscal, térmico, obra y químico.',
+  url: 'https://www.rosariorollos.com',
+  email: EMPRESA.email,
+  telephone: `+54 341 3456164`,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Lamadrid 102',
+    addressLocality: 'Rosario',
+    addressRegion: 'Santa Fe',
+    addressCountry: 'AR',
+  },
+  openingHoursSpecification: [{
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '08:00',
+    closes: '16:00',
+  }],
+  foundingDate: String(EMPRESA.desde),
+};
+---
+<Base
+  title="Contacto — WhatsApp, teléfono y dirección | Rosario Rollos"
+  description={`Contactanos: WhatsApp ${EMPRESA.whatsappVisible}, ${EMPRESA.email}. Estamos en ${EMPRESA.direccion}. ${EMPRESA.horarios}.`}>
+
+  <div class="contenedor">
+    <Breadcrumbs items={[{ texto: 'Contacto' }]} />
+
+    <header class="cto-cab">
+      <h1>Contacto</h1>
+      <p>La forma más rápida de comunicarte con nosotros es por WhatsApp.</p>
+      <a class="boton boton--wsp" href={urlWhatsapp('Hola, quería hacer una consulta.')} target="_blank" rel="noopener"
+         data-evento="click_whatsapp">
+        Escribinos por WhatsApp
+      </a>
+    </header>
+
+    <div class="cto-grid">
+      <section class="cto-datos">
+        <h2>Datos de contacto</h2>
+        <dl>
+          <dt>WhatsApp</dt>
+          <dd><a href={urlWhatsapp()} target="_blank" rel="noopener">{EMPRESA.whatsappVisible}</a></dd>
+          <dt>Teléfono fijo</dt>
+          <dd>{EMPRESA.telefonoFijo}</dd>
+          <dt>Email</dt>
+          <dd><a href={`mailto:${EMPRESA.email}`}>{EMPRESA.email}</a></dd>
+          <dt>Dirección</dt>
+          <dd>{EMPRESA.direccion}</dd>
+          <dt>Horarios</dt>
+          <dd>{EMPRESA.horarios}</dd>
+        </dl>
+
+        <a class="boton boton--fantasma" href={EMPRESA.mapaUrl} target="_blank" rel="noopener">
+          Ver cómo llegar en Google Maps
+        </a>
+      </section>
+
+      <section class="cto-form">
+        <h2>Envianos una consulta</h2>
+        <p class="cto-form__nota">Te respondemos por email o WhatsApp.</p>
+
+        <!-- Netlify Forms: sin backend propio. Anti-spam con honeypot (sin CAPTCHA molesto). -->
+        <form name="consulta" method="POST" data-netlify="true" netlify-honeypot="apellido-2">
+          <input type="hidden" name="form-name" value="consulta" />
+          <p class="cto-oculto">
+            <label>No completar este campo: <input name="apellido-2" /></label>
+          </p>
+
+          <label class="cto-campo">
+            <span>Nombre *</span>
+            <input type="text" name="nombre" required />
+          </label>
+          <label class="cto-campo">
+            <span>Email *</span>
+            <input type="email" name="email" required />
+          </label>
+          <label class="cto-campo">
+            <span>Teléfono (opcional)</span>
+            <input type="tel" name="telefono" />
+          </label>
+          <label class="cto-campo">
+            <span>Consulta *</span>
+            <textarea name="mensaje" rows={4} required></textarea>
+          </label>
+
+          <button type="submit" class="boton">Enviar consulta</button>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+</Base>
+
+<style>
+  .cto-cab { padding-block: 1rem 0.5rem; }
+  .cto-cab h1 { font-size: clamp(1.7rem, 5vw, 2.6rem); margin: 0.25rem 0 0.5rem; }
+  .cto-cab p { max-width: 55ch; color: #4a5a55; }
+  .cto-grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 2rem; }
+  .cto-datos h2, .cto-form h2 { font-size: 1.2rem; margin-top: 0; }
+  .cto-datos dl { display: grid; grid-template-columns: auto 1fr; gap: 0.4rem 1rem; margin: 0 0 1.25rem; }
+  .cto-datos dt { font-weight: 700; color: var(--verde-oscuro); }
+  .cto-datos dd { margin: 0; }
+  .cto-form__nota { font-size: 0.9rem; color: #5b6b66; margin-top: 0; }
+  .cto-campo { display: grid; gap: 0.25rem; margin-bottom: 0.85rem; }
+  .cto-campo > span { font-size: 0.88rem; font-weight: 500; }
+  .cto-campo input, .cto-campo textarea {
+    font-family: inherit; font-size: 1rem; min-height: var(--toque-min);
+    padding: 0.55rem 0.75rem; border: 2px solid var(--verde-menta-claro);
+    border-radius: var(--radio-chico); background: var(--blanco); color: inherit;
+  }
+  .cto-campo input:focus, .cto-campo textarea:focus { outline: 2px solid var(--verde-menta); border-color: transparent; }
+  .cto-oculto { position: absolute; left: -9999px; }
+</style>

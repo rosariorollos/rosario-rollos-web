@@ -1,0 +1,22 @@
+{
+  "nombre": "Rollo térmico 37x30",
+  "slug": "37x30",
+  "categoria": "rollos-termicos",
+  "medida": "37x30",
+  "paginaPropia": false,
+  "destacado": false,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Papel térmico 37x30 mm x metros, blanco de alta calidad.",
+  "descripcion": "",
+  "compatibilidades": [],
+  "usos": [],
+  "orden": 6
+}

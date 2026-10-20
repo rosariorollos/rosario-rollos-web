@@ -1,0 +1,28 @@
+{
+  "nombre": "Rollo químico 76x30 (duplicado)",
+  "slug": "76x30",
+  "categoria": "rollos-quimicos",
+  "medida": "76x30",
+  "paginaPropia": false,
+  "destacado": false,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    },
+    {
+      "tipo": "caja",
+      "unidadesPorCaja": 50,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Papel autocopiativo duplicado, la medida más pedida en químico.",
+  "descripcion": "",
+  "compatibilidades": [],
+  "usos": [],
+  "orden": 2
+}

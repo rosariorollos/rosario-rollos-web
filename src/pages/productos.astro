@@ -1,0 +1,132 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import FotoTarjeta from '../components/FotoTarjeta.astro';
+import TarjetaProducto from '../components/TarjetaProducto.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { urlWhatsapp } from '../config';
+
+const categorias = (await getCollection('categorias')).sort((a, b) => a.data.orden - b.data.orden);
+const productos = await getCollection('productos');
+
+const conteo = (slug: string) => productos.filter((p) => p.data.categoria === slug).length;
+const destacados = productos
+  .filter((p) => p.data.destacado && p.data.paginaPropia)
+  .map((p) => p.data)
+  .sort((a, b) => a.ordenDestacado - b.ordenDestacado);
+---
+<Base
+  title="Productos: rollos térmicos, obra, químico y etiquetas | Rosario Rollos"
+  description="Catálogo completo de rollos de papel: térmicos, obra, químico, para taxi, etiquetas autoadhesivas y resmas A4. Todas las medidas, por mayor y por menor en Rosario.">
+
+  <div class="contenedor">
+    <Breadcrumbs items={[{ texto: 'Productos' }]} />
+
+    <header class="cab">
+      <p class="sobretitulo">Catálogo completo</p>
+      <h1>Nuestros productos</h1>
+      <p class="cab__txt">
+        Fabricamos rollos en todas las medidas y trabajamos por mayor y por menor.
+        Elegí una categoría para ver medidas y precios.
+      </p>
+    </header>
+  </div>
+
+  <!-- ============ MÁS PEDIDOS (arriba, con foto) ============ -->
+  {destacados.length > 0 && (
+    <section class="destacados">
+      <div class="contenedor">
+        <p class="sobretitulo">Los que más salen</p>
+        <h2>Productos más pedidos</h2>
+        <ul class="grilla">
+          {destacados.map((p) => (
+            <li>
+              <TarjetaProducto producto={p} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <!-- ============ CATEGORÍAS ============ -->
+  <section class="contenedor seccion">
+    <p class="sobretitulo">Por tipo de papel</p>
+    <h2>Todas las categorías</h2>
+    <ul class="grilla">
+      {categorias.map((cat) => (
+        <li>
+          <a href={`/${cat.data.slug}`} class="tarjeta">
+            <FotoTarjeta foto={cat.data.foto} alt={cat.data.nombre} />
+            <span class="tarjeta__cuerpo">
+              <span class="tarjeta__nombre">{cat.data.nombre}</span>
+              <span class="tarjeta__desc">{cat.data.descripcion}</span>
+              <span class="tarjeta__cta">
+                {conteo(cat.data.slug) > 0 ? `${conteo(cat.data.slug)} medidas →` : 'Ver disponibilidad →'}
+              </span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- ============ AYUDA ============ -->
+  <section class="contenedor">
+    <div class="ayuda">
+      <h2>¿No sabés cuál necesitás?</h2>
+      <p>
+        Mandanos una foto del rollo que estás usando o el modelo de tu impresora
+        y te decimos exactamente cuál es.
+      </p>
+      <a class="boton boton--wsp" href={urlWhatsapp('Hola, no sé qué rollo necesito. Te paso una foto.')}
+         target="_blank" rel="noopener">Consultar por WhatsApp</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cab { padding-block: 0.75rem 0.5rem; }
+  .cab__txt { max-width: 60ch; color: #4a5a55; }
+  .seccion { padding-block: clamp(2rem, 5vw, 3.2rem); }
+  .destacados { background: var(--celeste-claro); padding-block: clamp(2rem, 5vw, 3.2rem); margin-top: 1.5rem; }
+
+  /* 2 por línea en celular */
+  .grilla {
+    list-style: none; padding: 0; margin: 1.3rem 0 0;
+    display: grid; gap: 0.8rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (min-width: 620px) {
+    .grilla { gap: 1.1rem; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  }
+
+  .tarjeta {
+    display: flex; flex-direction: column; height: 100%;
+    background: var(--blanco); border-radius: var(--radio); overflow: hidden;
+    text-decoration: none; color: var(--celeste-profundo);
+    box-shadow: var(--sombra); transition: transform 0.15s ease;
+  }
+  .tarjeta:hover { transform: translateY(-3px); }
+  .tarjeta__foto { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; background: var(--gris-suave); }
+  .tarjeta__foto--prod { object-fit: contain; aspect-ratio: 4 / 3; padding: 0.4rem; }
+  .tarjeta__cuerpo { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.75rem 0.85rem 0.9rem; flex: 1; }
+  .tarjeta__nombre {
+    font-family: var(--fuente-titulo); text-transform: uppercase;
+    font-weight: 600; font-size: 0.98rem; line-height: 1.1;
+  }
+  .tarjeta__medida { font-size: 0.78rem; color: var(--verde); font-weight: 600; }
+  .tarjeta__desc { font-size: 0.8rem; color: #5a6e75; line-height: 1.35; }
+  .tarjeta__cta { margin-top: auto; padding-top: 0.5rem; font-size: 0.8rem; font-weight: 600; color: var(--verde-menta); }
+  @media (min-width: 620px) {
+    .tarjeta__nombre { font-size: 1.1rem; }
+    .tarjeta__desc { font-size: 0.88rem; }
+    .tarjeta__cuerpo { padding: 1rem 1.1rem 1.2rem; }
+  }
+
+  .ayuda {
+    margin-bottom: 2rem; padding: 1.5rem; border-radius: var(--radio);
+    background: var(--gris-suave); max-width: 68ch;
+  }
+  .ayuda h2 { font-size: 1.3rem; margin-top: 0; }
+</style>

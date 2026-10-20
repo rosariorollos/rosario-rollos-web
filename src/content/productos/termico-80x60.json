@@ -1,0 +1,37 @@
+{
+  "nombre": "Rollo térmico 80x60",
+  "slug": "80x60",
+  "categoria": "rollos-termicos",
+  "medida": "80 mm x 60 metros reales",
+  "gramaje": "48 grs",
+  "color": "Blanco",
+  "tipoPapel": "Papel térmico",
+  "paginaPropia": true,
+  "destacado": true,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Para comercios de mucho movimiento: 20% más de papel que el de 50 metros, menos recambios.",
+  "descripcion": "Rollo de papel térmico blanco de alta calidad. Medida: 80 mm x 60 metros reales. Gramaje: 48 grs.\n\nCompatible con impresoras de ticket o comanderas, impresoras fiscales Epson TMT900FA, Hasar SMH/PT1000 y Hasar SMH/PT250. Ideal para ticket de PedidosYa y más.\n\nEntra en los mismos equipos que el 80x50, pero tiene un 20% más de papel: rinde más y obliga a menos recambios. Conviene en comercios de mucho movimiento, donde parar la caja para cambiar el rollo cuesta tiempo. La compatibilidad exacta depende del modelo de impresora.",
+  "compatibilidades": [
+    "Impresoras de ticket y comanderas",
+    "Epson TMT900FA",
+    "Hasar SMH/PT1000",
+    "Hasar SMH/PT250"
+  ],
+  "usos": [
+    "Comercios de alto volumen",
+    "Impresoras fiscales",
+    "Comanderas",
+    "Tickets de PedidosYa"
+  ],
+  "orden": 2,
+  "foto": "/imagenes/termico-80x60.webp",
+  "ordenDestacado": 2
+}

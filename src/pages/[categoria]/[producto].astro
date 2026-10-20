@@ -1,0 +1,291 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BotonAgregar from '../../components/BotonAgregar.tsx';
+import Etiquetas from '../../components/Etiquetas.astro';
+import FotoTarjeta from '../../components/FotoTarjeta.astro';
+import { urlWhatsapp } from '../../config';
+import { textoPrecio, nombrePresentacion, precioPorRollo, tienePrecio, enOferta, formatearPrecio, ordenarPresentaciones } from '../../lib/precios';
+
+export async function getStaticPaths() {
+  const productos = await getCollection('productos');
+  const categorias = await getCollection('categorias');
+
+  return productos
+    .filter((p) => p.data.paginaPropia)
+    .map((p) => {
+      const cat = categorias.find((c) => c.data.slug === p.data.categoria);
+      const hermanos = productos
+        .filter((o) => o.data.paginaPropia && o.data.categoria === p.data.categoria && o.data.slug !== p.data.slug)
+        .map((o) => o.data);
+      return {
+        params: { categoria: p.data.categoria, producto: p.data.slug },
+        props: { prod: p.data, cat: cat?.data, hermanos },
+      };
+    });
+}
+
+const { prod, cat, hermanos } = Astro.props;
+
+const title = prod.seoTitle ?? `${prod.nombre} | Rosario Rollos`;
+const description = prod.seoDescription ?? prod.descripcionCorta;
+
+// Ficha técnica en una sola línea compacta.
+const datosTecnicos = [
+  { etiqueta: 'Medida', valor: prod.medida },
+  { etiqueta: 'Gramaje', valor: prod.gramaje },
+  { etiqueta: 'Color', valor: prod.color },
+  { etiqueta: 'Tipo', valor: prod.tipoPapel },
+].filter((d) => d.valor);
+
+// Schema.org: solo declaramos ofertas si hay precio real cargado.
+const conPrecio = prod.variantes.filter(tienePrecio);
+const jsonLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: prod.nombre,
+  description: prod.descripcion || prod.descripcionCorta,
+  brand: { '@type': 'Brand', name: 'Rosario Rollos' },
+};
+if (conPrecio.length) {
+  jsonLd.offers = conPrecio.map((v) => ({
+    '@type': 'Offer',
+    price: v.precio,
+    priceCurrency: 'ARS',
+    availability: prod.agotado ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+    description: nombrePresentacion(v),
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingRate: { '@type': 'MonetaryAmount', value: 0, currency: 'ARS' },
+    },
+  }));
+}
+
+const presentaciones = ordenarPresentaciones(prod.variantes);
+
+const parrafos = prod.descripcion ? prod.descripcion.split('\n\n').filter(Boolean) : [];
+---
+<Base title={title} description={description}>
+  <div class="contenedor">
+    <Breadcrumbs items={[
+      { texto: 'Productos', href: '/productos' },
+      { texto: cat?.nombre ?? 'Categoría', href: `/${prod.categoria}` },
+      { texto: prod.nombre },
+    ]} />
+
+    <article class="ficha">
+      {/* ====== BLOQUE DE COMPRA: todo lo necesario para decidir ====== */}
+      <div class="compra">
+        <div class="compra__media">
+          <Etiquetas variantes={prod.variantes} agotado={prod.agotado} />
+          <FotoTarjeta foto={prod.foto} alt={prod.nombre} modo="contener" ancho={600} alto={450} />
+        </div>
+
+        <div class="compra__datos">
+          <h1>{prod.nombre}</h1>
+          {prod.descripcionCorta && <p class="compra__resumen">{prod.descripcionCorta}</p>}
+
+          {datosTecnicos.length > 0 && (
+            <p class="compra__specs">
+              {datosTecnicos.map((d, i) => (
+                <>
+                  {i > 0 && <span class="compra__sep"> · </span>}
+                  <span><strong>{d.etiqueta}:</strong> {d.valor}</span>
+                </>
+              ))}
+            </p>
+          )}
+
+          {prod.agotado && <p class="compra__agotado">Sin stock por el momento — consultanos disponibilidad.</p>}
+
+          <div class="precios">
+            {presentaciones.length === 0 ? (
+              <div class="precios__fila">
+                <div>
+                  <p class="precios__valor precios__valor--consulta">Consultar precio</p>
+                  <p class="precios__nota">Te lo cotizamos por WhatsApp según la cantidad.</p>
+                </div>
+                <BotonAgregar client:load id={`${prod.slug}-consulta`} nombre={prod.nombre}
+                              tipo="caja" unidadesPorCaja={0} precio={null} agotado={prod.agotado} />
+              </div>
+            ) : (
+              presentaciones.map((v) => (
+                <div class="precios__fila">
+                  <div class="precios__info">
+                    <p class="precios__presentacion">{nombrePresentacion(v)}</p>
+                    <p class="precios__valor">
+                      {enOferta(v) && <s class="precios__tachado">{formatearPrecio(v.precioAnterior as number)}</s>}
+                      {textoPrecio(v)}
+                    </p>
+                    {precioPorRollo(v) && <p class="precios__unitario">{precioPorRollo(v)}</p>}
+                  </div>
+                  <BotonAgregar client:load
+                                id={`${prod.slug}-${v.tipo}-${v.unidadesPorCaja}`}
+                                nombre={prod.nombre}
+                                tipo={v.tipo}
+                                unidadesPorCaja={v.unidadesPorCaja}
+                                precio={tienePrecio(v) ? v.precio : null}
+                                agotado={prod.agotado}
+                                etiqueta={v.tipo === 'pack' ? 'Agregar pack' : 'Agregar caja'} />
+                </div>
+              ))
+            )}
+          </div>
+
+          <p class="compra__envio">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M3 6a1 1 0 011-1h9a1 1 0 011 1v2h2.6a1 1 0 01.8.4l2.4 3.2a1 1 0 01.2.6V17a1 1 0 01-1 1h-1.2a2.8 2.8 0 01-5.6 0H9.8a2.8 2.8 0 01-5.6 0H4a1 1 0 01-1-1V6zm13 4v2h3.1L17.6 10H16zM7 16.2a1 1 0 100 2 1 1 0 000-2zm8 0a1 1 0 100 2 1 1 0 000-2z"/>
+            </svg>
+            <strong>Envío gratis</strong> a Rosario y alrededores
+          </p>
+
+          <a class="compra__consulta" href={urlWhatsapp(`Hola, quería consultar por ${prod.nombre}.`)}
+             target="_blank" rel="noopener">¿Dudas? Consultanos por WhatsApp</a>
+        </div>
+      </div>
+
+      {/* ====== DETALLE: plegable, para no alargar la pantalla ====== */}
+      <div class="detalle">
+        {parrafos.length > 0 && (
+          <details class="detalle__item" open>
+            <summary><h2>Descripción</h2></summary>
+            <div class="detalle__cuerpo">
+              {parrafos.map((p) => <p>{p}</p>)}
+            </div>
+          </details>
+        )}
+
+        {prod.usos.length > 0 && (
+          <details class="detalle__item">
+            <summary><h2>¿Para qué se usa?</h2></summary>
+            <div class="detalle__cuerpo">
+              <ul>{prod.usos.map((u) => <li>{u}</li>)}</ul>
+            </div>
+          </details>
+        )}
+
+        {prod.compatibilidades.length > 0 && (
+          <details class="detalle__item">
+            <summary><h2>¿Con qué equipos es compatible?</h2></summary>
+            <div class="detalle__cuerpo">
+              <ul>{prod.compatibilidades.map((c) => <li>{c}</li>)}</ul>
+              <p class="detalle__aviso">
+                Las marcas se citan solo como referencia de compatibilidad.
+                La compatibilidad exacta depende del modelo de tu equipo.
+              </p>
+            </div>
+          </details>
+        )}
+      </div>
+
+      {/* ====== OTRAS MEDIDAS ====== */}
+      {hermanos.length > 0 && (
+        <section class="otros">
+          <h2>¿Cuál me conviene?</h2>
+          <ul class="otros__lista">
+            {hermanos.map((h) => (
+              <li>
+                <a href={`/${h.categoria}/${h.slug}`}>
+                  <strong>{h.nombre}</strong>
+                  {h.descripcionCorta && <span> — {h.descripcionCorta}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </article>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+</Base>
+
+<style>
+  .ficha { padding-bottom: 2rem; }
+
+  /* ---------- BLOQUE DE COMPRA ---------- */
+  .compra { display: grid; gap: 1.1rem; margin-top: 0.5rem; }
+  @media (min-width: 820px) {
+    .compra { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 2rem; align-items: start; }
+  }
+
+  .compra__media {
+    position: relative; border-radius: var(--radio); overflow: hidden;
+    background: var(--blanco); box-shadow: var(--sombra);
+  }
+  .compra__media :global(.tfoto) { aspect-ratio: 4 / 3; }
+
+  .compra__datos h1 { font-size: clamp(1.5rem, 4.5vw, 2.3rem); margin-bottom: 0.4rem; }
+  .compra__resumen { font-size: 0.98rem; color: #4a5a55; margin: 0 0 0.6rem; }
+  .compra__specs {
+    font-size: 0.85rem; color: #4a5a55; margin: 0 0 0.9rem;
+    padding: 0.55rem 0.8rem; background: var(--gris-suave); border-radius: var(--radio-chico);
+  }
+  .compra__specs strong { color: var(--celeste-profundo); }
+  .compra__sep { color: var(--verde-menta); }
+  .compra__agotado {
+    background: #f6e7e6; color: #b3261e; padding: 0.55rem 0.8rem;
+    border-radius: var(--radio-chico); font-size: 0.9rem; margin: 0 0 0.8rem;
+  }
+
+  .precios { display: grid; gap: 0.6rem; }
+  .precios__fila {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.8rem; flex-wrap: wrap;
+    padding: 0.8rem 0.9rem; border-radius: var(--radio);
+    background: var(--blanco); border: 2px solid var(--celeste-claro);
+  }
+  .precios__info { min-width: 0; }
+  .precios__presentacion {
+    margin: 0 0 0.1rem; font-family: var(--fuente-titulo); text-transform: uppercase;
+    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; color: var(--verde);
+  }
+  .precios__valor { margin: 0; font-size: 1.3rem; font-weight: 700; color: var(--celeste-profundo); line-height: 1.15; }
+  .precios__unitario { margin: 0.15rem 0 0; font-size: 0.78rem; color: #5a6e75; }
+  .precios__valor--consulta { font-size: 1.1rem; color: var(--verde); }
+  .precios__tachado { font-size: 0.9rem; color: #8a9aa0; font-weight: 400; margin-right: 0.45rem; }
+  .precios__caja { margin: 0.15rem 0 0; font-size: 0.8rem; color: #5a6e75; }
+  .precios__nota { margin: 0.15rem 0 0; font-size: 0.8rem; color: #5a6e75; max-width: 30ch; }
+
+  .compra__envio {
+    display: flex; align-items: center; gap: 0.45rem;
+    margin: 0.9rem 0 0; font-size: 0.9rem; color: var(--verde);
+  }
+  .compra__consulta {
+    display: inline-block; margin-top: 0.5rem;
+    font-size: 0.9rem; font-weight: 600; color: var(--celeste);
+  }
+
+  /* ---------- DETALLE PLEGABLE ---------- */
+  .detalle { margin-top: 2rem; display: grid; gap: 0.6rem; max-width: 78ch; }
+  .detalle__item { background: var(--blanco); border: 1px solid var(--celeste-claro); border-radius: var(--radio); }
+  .detalle__item summary {
+    cursor: pointer; list-style: none; padding: 0.85rem 1.1rem; min-height: var(--toque-min);
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .detalle__item summary::-webkit-details-marker { display: none; }
+  .detalle__item summary::after { content: '+'; font-size: 1.5rem; color: var(--verde-menta); line-height: 1; }
+  .detalle__item[open] summary::after { content: '−'; }
+  .detalle__item h2 { font-size: 1rem; margin: 0; }
+  .detalle__cuerpo { padding: 0 1.1rem 1.1rem; }
+  .detalle__cuerpo p { margin: 0 0 0.7rem; color: #4a5a55; }
+  .detalle__cuerpo ul { padding-left: 1.1rem; margin: 0; color: #4a5a55; }
+  .detalle__cuerpo li { margin-bottom: 0.3rem; }
+  .detalle__aviso {
+    font-size: 0.83rem; background: var(--gris-suave);
+    padding: 0.6rem 0.8rem; border-radius: var(--radio-chico); margin-top: 0.8rem !important;
+  }
+
+  /* ---------- OTRAS MEDIDAS ---------- */
+  .otros { margin-top: 2rem; max-width: 78ch; }
+  .otros h2 { font-size: 1.25rem; }
+  .otros__lista { list-style: none; padding: 0; margin: 0.8rem 0 0; display: grid; gap: 0.5rem; }
+  .otros__lista a {
+    display: block; padding: 0.75rem 0.95rem; border-radius: var(--radio);
+    background: var(--blanco); border: 1px solid var(--celeste-claro);
+    text-decoration: none; color: var(--celeste-profundo); font-size: 0.9rem;
+  }
+  .otros__lista a:hover { border-color: var(--verde-menta); }
+  .otros__lista strong { font-family: var(--fuente-titulo); text-transform: uppercase; font-weight: 600; }
+</style>

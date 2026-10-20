@@ -1,0 +1,125 @@
+# Panel de edición de Rosario Rollos (Sveltia CMS).
+# Los cambios que hagas acá se guardan como archivos del proyecto y se publican solos.
+#
+# IMPORTANTE: reemplazar TU-USUARIO/TU-REPO por el repositorio real al conectar GitHub.
+backend:
+  name: github
+  repo: rosariorollos/rosario-rollos-web
+  branch: main
+  # Permite editar desde el celular sin instalar nada.
+  auth_type: pkce
+  app_id: PENDIENTE-GITHUB-APP-ID
+
+# Carpeta donde el CMS sube las fotos.
+media_folder: "public/imagenes"
+public_folder: "/imagenes"
+
+# Idioma del panel
+locale: es
+
+collections:
+  # ---------------------------------------------------------------
+  # PRODUCTOS — lo que más vas a editar (precios, stock, ofertas).
+  # ---------------------------------------------------------------
+  - name: productos
+    label: Productos
+    label_singular: Producto
+    folder: src/content/productos
+    create: true
+    extension: json
+    format: json
+    slug: "{{categoria}}-{{slug}}"
+    # Vista de lista: se ve el nombre y la categoría de un vistazo.
+    summary: "{{nombre}} — {{categoria}}"
+    sortable_fields: [nombre, categoria, orden]
+    fields:
+      - { name: nombre, label: "Nombre del producto", widget: string, hint: "Ej: Rollo térmico 80x50" }
+      - { name: slug, label: "Dirección web (slug)", widget: string, hint: "Sin espacios ni acentos. Ej: 80x50. OJO: cambiarlo rompe el link si ya está publicado." }
+      - name: categoria
+        label: Categoría
+        widget: select
+        options:
+          - { label: "Rollos térmicos", value: rollos-termicos }
+          - { label: "Rollos papel obra", value: rollos-obra }
+          - { label: "Rollos químicos", value: rollos-quimicos }
+          - { label: "Etiquetas autoadhesivas", value: etiquetas-autoadhesivas }
+          - { label: "Rollos para taxi", value: rollos-taxi }
+          - { label: "Resmas A4", value: resmas-a4 }
+      - { name: medida, label: "Medida", widget: string, required: false, hint: "Ej: 80 mm x 50 metros reales" }
+      - { name: gramaje, label: "Gramaje", widget: string, required: false, hint: "Ej: 48 grs" }
+      - { name: color, label: "Color", widget: string, required: false, hint: "Ej: Blanco" }
+      - { name: tipoPapel, label: "Tipo de papel", widget: string, required: false, hint: "Ej: Papel térmico" }
+
+      # --- PRECIOS ---
+      - name: variantes
+        label: "Presentaciones y precios"
+        label_singular: "Presentación"
+        widget: list
+        required: false
+        hint: "Cada forma de vender el producto con su precio. El pack de 10 es la compra chica; las cajas varían según el producto. Si dejás el precio vacío, el sitio muestra 'Consultar precio'."
+        summary: "{{fields.tipo}} de {{fields.unidadesPorCaja}} — {{fields.precio}}"
+        fields:
+          - name: tipo
+            label: "Tipo de presentación"
+            widget: select
+            default: caja
+            options:
+              - { label: "Pack (compra chica)", value: pack }
+              - { label: "Caja cerrada", value: caja }
+          - { name: unidadesPorCaja, label: "Cuántos rollos trae", widget: number, value_type: int, min: 1, hint: "Ej: 10 para el pack, o 60 / 100 / 250 para las cajas" }
+          - { name: precio, label: "Precio de esta presentación", widget: number, value_type: float, required: false, hint: "El precio del pack o de la caja ENTERA, no el de un rollo. Dejalo vacío si es a consultar." }
+          - { name: precioAnterior, label: "Precio anterior (oferta)", widget: number, value_type: float, required: false, hint: "Completalo solo si está en oferta: se muestra tachado y el sitio calcula el % de descuento solo." }
+
+      # --- ESTADO ---
+      - { name: destacado, label: "Destacado (aparece en 'los más pedidos')", widget: boolean, default: false }
+      - { name: agotado, label: "Sin stock", widget: boolean, default: false }
+      - { name: paginaPropia, label: "Tiene página propia", widget: boolean, default: false, hint: "Solo para las medidas más buscadas. Requiere descripción propia. Consultá antes de activarlo: afecta el posicionamiento en Google." }
+
+      # --- CONTENIDO ---
+      - { name: descripcionCorta, label: "Descripción corta", widget: string, required: false, hint: "Una línea. Se ve en el listado de medidas." }
+      - { name: descripcion, label: "Descripción completa", widget: text, required: false }
+      - { name: usos, label: "¿Para qué se usa?", widget: list, required: false, field: { name: uso, label: Uso, widget: string } }
+      - name: compatibilidades
+        label: "Equipos compatibles"
+        widget: list
+        required: false
+        hint: "Se muestran solo como referencia de compatibilidad. El sitio aclara siempre que depende del modelo."
+        field: { name: equipo, label: Equipo, widget: string }
+      - { name: foto, label: "Foto del producto", widget: image, required: false }
+      - { name: orden, label: "Orden dentro de su categoría", widget: number, value_type: int, default: 99 }
+      - { name: ordenDestacado, label: "Orden en 'Productos más pedidos' (portada)", widget: number, value_type: int, default: 99, hint: "1 = primero. Solo aplica si el producto está marcado como destacado." }
+
+      # --- SEO (opcional) ---
+      - { name: seoTitle, label: "Título para Google (opcional)", widget: string, required: false }
+      - { name: seoDescription, label: "Descripción para Google (opcional)", widget: string, required: false }
+
+  # ---------------------------------------------------------------
+  - name: categorias
+    label: Categorías
+    label_singular: Categoría
+    folder: src/content/categorias
+    create: true
+    extension: json
+    format: json
+    summary: "{{nombre}}"
+    fields:
+      - { name: nombre, label: Nombre, widget: string }
+      - { name: slug, label: "Dirección web (slug)", widget: string, hint: "OJO: cambiarlo rompe los links publicados." }
+      - { name: descripcion, label: Descripción, widget: text, required: false }
+      - { name: orden, label: Orden, widget: number, value_type: int, default: 99 }
+      - { name: destacada, label: "Mostrar en la portada", widget: boolean, default: false }
+      - { name: icono, label: Ícono, widget: string, required: false }
+
+  # ---------------------------------------------------------------
+  - name: faq
+    label: "Preguntas frecuentes"
+    label_singular: Pregunta
+    folder: src/content/faq
+    create: true
+    extension: json
+    format: json
+    summary: "{{pregunta}}"
+    fields:
+      - { name: pregunta, label: Pregunta, widget: string }
+      - { name: respuesta, label: Respuesta, widget: text }
+      - { name: orden, label: Orden, widget: number, value_type: int, default: 99 }

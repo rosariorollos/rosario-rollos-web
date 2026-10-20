@@ -1,0 +1,22 @@
+{
+  "nombre": "Rollo térmico 44x50",
+  "slug": "44x50",
+  "categoria": "rollos-termicos",
+  "medida": "44x50",
+  "paginaPropia": false,
+  "destacado": false,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Papel térmico 44x50 mm x metros, blanco de alta calidad.",
+  "descripcion": "",
+  "compatibilidades": [],
+  "usos": [],
+  "orden": 7
+}

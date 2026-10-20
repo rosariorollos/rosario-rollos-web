@@ -1,0 +1,38 @@
+# Redirecciones 301 — migración desde Wix (Etapa 3 del plan).
+# Formato Netlify: origen  destino  código
+# Regla: toda URL con tráfico orgánico se preserva o redirige. NO borrar sin revisar Search Console.
+
+# --- Categorías reales de Wix (tenían tráfico) ---
+/copia-de-productos              /productos            301
+/copia-de-t%C3%A9rmicos          /rollos-termicos      301
+/copia-de-t%C3%A9rmicos-1        /rollos-termicos      301
+/copia-de-t%C3%A9rmicos-2        /rollos-termicos      301
+/copia-de-térmicos               /rollos-termicos      301
+/copia-de-térmicos-1             /rollos-termicos      301
+/copia-de-térmicos-2             /rollos-termicos      301
+/copia-de-obra                   /rollos-obra          301
+/copia-de-productos/*            /productos            301
+
+# --- Wix Stores (productos placeholder + el real) ---
+/product-page/caja-50-rollos-térmicos-80x60   /rollos-termicos/80x60   301
+/product-page/caja-50-rollos-t%C3%A9rmicos-80x60  /rollos-termicos/80x60  301
+/product-page/*                  /productos            301
+/category/all-products           /productos            301
+/category/*                      /productos            301
+
+# --- Wix Bookings (servicios de mecánica que no correspondían al rubro) ---
+/servicios                       /                     301
+/service-page/*                  /                     301
+
+# --- Legales (sacamos los acentos de la URL) ---
+/términos-y-condiciones          /terminos-y-condiciones   301
+/t%C3%A9rminos-y-condiciones     /terminos-y-condiciones   301
+/política-de-privacidad          /politica-de-privacidad   301
+/pol%C3%ADtica-de-privacidad     /politica-de-privacidad   301
+
+# --- Sitemaps viejos de Wix ---
+/pages-sitemap.xml               /sitemap-index.xml    301
+/store-products-sitemap.xml      /sitemap-index.xml    301
+/store-categories-sitemap.xml    /sitemap-index.xml    301
+/booking-services-sitemap.xml    /sitemap-index.xml    301
+/sitemap.xml                     /sitemap-index.xml    301

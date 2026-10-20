@@ -1,0 +1,34 @@
+{
+  "nombre": "Etiquetas 100x150 mm (10x15 cm) para Mercado Libre",
+  "slug": "100x150-mercado-libre",
+  "categoria": "etiquetas-autoadhesivas",
+  "medida": "100 mm x 150 mm (10 x 15 cm)",
+  "color": "Blanco",
+  "tipoPapel": "Etiqueta térmica autoadhesiva",
+  "paginaPropia": true,
+  "destacado": true,
+  "agotado": false,
+  "variantes": [
+    {
+      "tipo": "pack",
+      "unidadesPorCaja": 10,
+      "precio": null,
+      "precioAnterior": null
+    }
+  ],
+  "descripcionCorta": "Etiquetas de envío para Mercado Libre, Mercado Envíos, tiendas online y logística.",
+  "descripcion": "Etiquetas térmicas autoadhesivas blancas. Medida: 100 mm x 150 mm (10 x 15 cm).\n\nCompatibles con impresoras térmicas de etiquetas que admitan este formato. Ideales para Mercado Libre, Mercado Envíos, tiendas online, depósitos y empresas de logística.\n\nPerfectas para imprimir etiquetas de despacho, direcciones y códigos de seguimiento. Son de impresión térmica directa: no necesitan tinta, tóner ni ribbon. La compatibilidad exacta depende del modelo de impresora.",
+  "compatibilidades": [
+    "Impresoras térmicas de etiquetas"
+  ],
+  "usos": [
+    "Mercado Libre y Mercado Envíos",
+    "Tiendas online",
+    "Depósitos",
+    "Empresas de logística",
+    "Etiquetas de despacho y códigos de seguimiento"
+  ],
+  "orden": 1,
+  "foto": "/imagenes/etiqueta-100x150.webp",
+  "ordenDestacado": 7
+}
