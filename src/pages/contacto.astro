@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import EncabezadoPagina from '../components/EncabezadoPagina.astro';
 import { EMPRESA, urlWhatsapp } from '../config';
 
 // LocalBusiness para búsquedas locales ("papelera rosario", "rollos rosario").
@@ -34,15 +35,18 @@ const jsonLd = {
 
   <div class="contenedor">
     <Breadcrumbs items={[{ texto: 'Contacto' }]} />
+  </div>
 
-    <header class="cto-cab">
-      <h1>Contacto</h1>
-      <p>La forma más rápida de comunicarte con nosotros es por WhatsApp.</p>
-      <a class="boton boton--wsp" href={urlWhatsapp('Hola, quería hacer una consulta.')} target="_blank" rel="noopener"
-         data-evento="click_whatsapp">
-        Escribinos por WhatsApp
-      </a>
-    </header>
+  <EncabezadoPagina
+    compacto
+    sobretitulo="Estamos para ayudarte"
+    titulo="Contacto"
+    bajada="La forma más rápida de comunicarte con nosotros es por WhatsApp.">
+    <a class="boton boton--wsp encab__cta" href={urlWhatsapp('Hola, quería hacer una consulta.')}
+       target="_blank" rel="noopener" data-evento="click_whatsapp">Escribinos por WhatsApp</a>
+  </EncabezadoPagina>
+
+  <div class="contenedor">
 
     <div class="cto-grid">
       <section class="cto-datos">

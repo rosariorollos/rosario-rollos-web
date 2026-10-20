@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import EncabezadoPagina from '../components/EncabezadoPagina.astro';
 import { EMPRESA } from '../config';
 
 const anios = new Date().getFullYear() - EMPRESA.desde;
@@ -18,15 +19,15 @@ const valores = [
 
   <div class="contenedor">
     <Breadcrumbs items={[{ texto: 'Nosotros' }]} />
+  </div>
 
-    <header class="nos-cab">
-      <h1>Sobre nosotros</h1>
-      <p class="nos-bajada">
-        Desde {EMPRESA.desde} nos dedicamos a la fabricación y distribución de rollos de papel
-        fiscal. Ya son {anios} años trabajando con comercios, farmacias, bares, estacionamientos
-        y mutuales de Rosario y la zona.
-      </p>
-    </header>
+<EncabezadoPagina
+    sobretitulo={`Desde ${EMPRESA.desde}`}
+    titulo="Sobre nosotros"
+    bajada={`Fabricamos y distribuimos rollos de papel fiscal en Rosario. Ya son ${anios} años trabajando con comercios, farmacias, bares, estacionamientos y mutuales de la ciudad y la zona.`}
+    foto="/imagenes/fabrica-rollos.webp" />
+
+  <div class="contenedor">
 
     <section class="nos-bloque">
       <h2>Somos fabricantes</h2>

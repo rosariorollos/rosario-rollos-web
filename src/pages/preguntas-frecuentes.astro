@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import EncabezadoPagina from '../components/EncabezadoPagina.astro';
 import { EMPRESA, urlWhatsapp } from '../config';
 
 const faq = (await getCollection('faq')).map((f) => f.data).sort((a, b) => a.orden - b.orden);
@@ -22,11 +23,15 @@ const jsonLd = {
 
   <div class="contenedor">
     <Breadcrumbs items={[{ texto: 'Preguntas frecuentes' }]} />
+  </div>
 
-    <header class="faq-cab">
-      <h1>Preguntas frecuentes</h1>
-      <p>Las dudas más comunes de nuestros clientes. Si no encontrás la tuya, escribinos.</p>
-    </header>
+  <EncabezadoPagina
+    compacto
+    sobretitulo="Dudas comunes"
+    titulo="Preguntas frecuentes"
+    bajada="Las dudas más comunes de nuestros clientes. Si no encontrás la tuya, escribinos y te la respondemos." />
+
+  <div class="contenedor">
 
     <div class="faq-lista">
       {faq.map((f) => (

@@ -1,0 +1,55 @@
+---
+/**
+ * Encabezado de página con el estilo del sitio:
+ * sobretítulo + título condensado + bajada, sobre foto atenuada opcional.
+ */
+interface Props {
+  sobretitulo?: string;
+  titulo: string;
+  bajada?: string;
+  /** Foto de fondo atenuada. Si no hay, usa el degradé de marca. */
+  foto?: string;
+  /** Más compacto, para páginas internas. */
+  compacto?: boolean;
+}
+const { sobretitulo, titulo, bajada, foto, compacto = false } = Astro.props;
+---
+<section class:list={['encab', { 'encab--compacto': compacto }]}>
+  <div
+    class="encab__fondo"
+    aria-hidden="true"
+    style={foto ? `background-image: linear-gradient(100deg, rgba(15,60,76,0.90) 0%, rgba(15,60,76,0.72) 50%, rgba(15,60,76,0.50) 100%), url('${foto}')` : undefined}
+  ></div>
+
+  <div class="contenedor encab__inner">
+    {sobretitulo && <p class="encab__sobre">{sobretitulo}</p>}
+    <h1 class="encab__titulo">{titulo}</h1>
+    {bajada && <p class="encab__bajada">{bajada}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .encab { position: relative; isolation: isolate; color: var(--blanco); overflow: hidden; }
+  .encab__fondo {
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(110deg, var(--celeste-profundo) 0%, #15566b 100%);
+    background-size: cover;
+    background-position: center;
+  }
+  .encab__inner {
+    padding-block: clamp(2rem, 5vw, 3.2rem);
+    text-shadow: 0 1px 10px rgba(5, 30, 38, 0.35);
+  }
+  .encab--compacto .encab__inner { padding-block: clamp(1.5rem, 3.5vw, 2.2rem); }
+
+  .encab__sobre {
+    text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.76rem;
+    font-weight: 600; color: var(--verde-menta); margin: 0 0 0.5rem;
+  }
+  .encab__titulo { color: var(--blanco); margin: 0; max-width: 20ch; }
+  .encab__bajada {
+    max-width: 58ch; margin: 0.8rem 0 0;
+    font-size: clamp(0.98rem, 1.6vw, 1.1rem); color: var(--blanco);
+  }
+</style>

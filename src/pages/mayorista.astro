@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import EncabezadoPagina from '../components/EncabezadoPagina.astro';
 import { EMPRESA, urlWhatsapp } from '../config';
 
 const anios = new Date().getFullYear() - EMPRESA.desde;
@@ -23,18 +24,20 @@ const rubros = [
 
   <div class="contenedor">
     <Breadcrumbs items={[{ texto: 'Venta por mayor' }]} />
+  </div>
 
-    <header class="may-cab">
-      <h1>Rollos por mayor: comprá directo de fábrica</h1>
-      <p class="may-bajada">
-        No somos revendedores: fabricamos los rollos nosotros mismos desde {EMPRESA.desde}.
-        Por eso podemos ofrecer precios competitivos por cantidad y stock permanente en
-        las medidas más pedidas.
-      </p>
-      <a class="boton boton--wsp" href={urlWhatsapp('Hola, quería consultar precios por mayor.')} target="_blank" rel="noopener">
-        Pedir cotización mayorista
-      </a>
-    </header>
+  <EncabezadoPagina
+    sobretitulo={`Fábrica desde ${EMPRESA.desde}`}
+    titulo="Rollos por mayor: comprá directo de fábrica"
+    bajada={`No somos revendedores: fabricamos los rollos nosotros mismos. Por eso podemos ofrecer precios competitivos por cantidad y stock permanente en las medidas más pedidas.`}
+    foto="/imagenes/caja-rollos.webp">
+    <a class="boton boton--wsp encab__cta" href={urlWhatsapp('Hola, quería consultar precios por mayor.')} target="_blank" rel="noopener">
+      Pedir cotización mayorista
+    </a>
+  </EncabezadoPagina>
+
+  <div class="contenedor">
+
 
     <section class="may-bloque">
       <h2>¿Por qué comprarle al fabricante?</h2>
