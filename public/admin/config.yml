@@ -1,15 +1,12 @@
 # Panel de edición de Rosario Rollos (Sveltia CMS).
 # Los cambios que hagas acá se guardan como archivos del proyecto y se publican solos.
 #
-# El app_id es el Client ID de la OAuth App de GitHub: es publico por diseno,
-# no es una contrasena. El panel usa PKCE, que no necesita client secret.
+# La autenticacion la resuelve Netlify como intermediario (Site configuration ->
+# Access & security -> OAuth -> GitHub). Por eso no hace falta configurar nada mas aca.
 backend:
   name: github
   repo: rosariorollos/rosario-rollos-web
   branch: main
-  # Permite editar desde el celular sin instalar nada.
-  auth_type: pkce
-  app_id: Ov23linXhYppZxSwNobU
 
 # Carpeta donde el CMS sube las fotos.
 media_folder: "public/imagenes"
