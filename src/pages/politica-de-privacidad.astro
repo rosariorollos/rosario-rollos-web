@@ -1,0 +1,130 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import EncabezadoPagina from '../components/EncabezadoPagina.astro';
+import { EMPRESA, urlWhatsapp } from '../config';
+
+const actualizado = '26 de octubre de 2026';
+---
+<Base
+  title="Política de privacidad | Rosario Rollos"
+  description="Qué datos recopila el sitio de Rosario Rollos, para qué se usan y cómo ejercer tus derechos.">
+
+  <div class="contenedor">
+    <Breadcrumbs items={[{ texto: 'Política de privacidad' }]} />
+  </div>
+
+  <EncabezadoPagina compacto titulo="Política de privacidad" />
+
+  <div class="contenedor legal">
+    <p class="legal__fecha">Última actualización: {actualizado}</p>
+
+    <h2>1. Responsable</h2>
+    <p>
+      Los datos que se recopilan en este sitio son tratados por <strong>{EMPRESA.nombre}</strong>,
+      con domicilio en {EMPRESA.direccion}. Para cualquier consulta sobre tus datos, escribinos a
+      {EMPRESA.email}.
+    </p>
+
+    <h2>2. Qué datos recopilamos</h2>
+    <p>Solo los necesarios para responderte. Concretamente:</p>
+    <ul>
+      <li>
+        <strong>Si usás el formulario de contacto:</strong> el nombre, el correo, el teléfono
+        (si lo completás) y el mensaje que escribas.
+      </li>
+      <li>
+        <strong>Si nos escribís por WhatsApp:</strong> los datos que vos mismo incluyas en la
+        conversación. El número de teléfono lo ves y lo enviás vos desde tu propia aplicación.
+      </li>
+      <li>
+        <strong>Datos de navegación:</strong> información anónima sobre cómo se usa el sitio
+        (páginas visitadas, tipo de dispositivo, desde dónde llegaste). No permite identificarte.
+      </li>
+    </ul>
+    <p>
+      <strong>No pedimos ni almacenamos datos de tarjetas ni medios de pago</strong>, porque en
+      este sitio no se realizan pagos. Tampoco hay cuentas de usuario ni contraseñas.
+    </p>
+
+    <h2>3. Para qué los usamos</h2>
+    <ul>
+      <li>Responder tus consultas y preparar tu pedido.</li>
+      <li>Coordinar la entrega.</li>
+      <li>Entender qué productos se buscan más, para mejorar el sitio.</li>
+    </ul>
+    <p>
+      <strong>No vendemos ni cedemos tus datos a terceros</strong> con fines comerciales, ni te
+      enviamos publicidad si no la pediste.
+    </p>
+
+    <h2>4. El carrito queda en tu dispositivo</h2>
+    <p>
+      La lista de pedido que armás se guarda <strong>únicamente en tu navegador</strong>, en tu
+      propio dispositivo. No viaja a ningún servidor nuestro: recién vemos el pedido cuando vos
+      lo enviás por WhatsApp. Si borrás los datos de navegación, el carrito desaparece.
+    </p>
+
+    <h2>5. Cookies y medición</h2>
+    <p>
+      Usamos herramientas de medición de audiencia (Google Analytics) para saber cuánta gente
+      visita el sitio y qué secciones le interesan. Esa información es estadística y agregada.
+    </p>
+    <p>
+      Podés bloquear las cookies desde la configuración de tu navegador. El sitio funciona
+      igual: no hay ninguna función que dependa de ellas.
+    </p>
+
+    <h2>6. Servicios de terceros</h2>
+    <p>Para que el sitio funcione intervienen estos servicios, cada uno con su propia política:</p>
+    <ul>
+      <li><strong>Netlify</strong> — alojamiento del sitio.</li>
+      <li><strong>WhatsApp (Meta)</strong> — cuando nos escribís por ese canal.</li>
+      <li><strong>Google</strong> — medición de audiencia y publicidad.</li>
+    </ul>
+
+    <h2>7. Cuánto tiempo los conservamos</h2>
+    <p>
+      Las consultas y pedidos se conservan mientras sean necesarios para atenderte y por el
+      plazo que exijan las obligaciones contables e impositivas. Podés pedirnos que los
+      eliminemos cuando quieras.
+    </p>
+
+    <h2>8. Tus derechos</h2>
+    <p>
+      Según la Ley 25.326 de Protección de los Datos Personales, podés solicitar acceder a tus
+      datos, rectificarlos o pedir que los suprimamos. Escribinos a {EMPRESA.email} y lo
+      resolvemos.
+    </p>
+    <p>
+      La Agencia de Acceso a la Información Pública es el organismo de control de esa ley y
+      atiende las denuncias por incumplimiento.
+    </p>
+
+    <h2>9. Cambios</h2>
+    <p>
+      Si modificamos esta política, publicamos la versión nueva en esta misma página con su
+      fecha de actualización.
+    </p>
+
+    <div class="legal__contacto">
+      <h2>¿Querés consultarnos algo sobre tus datos?</h2>
+      <a class="boton boton--wsp" href={urlWhatsapp('Hola, tengo una consulta sobre la privacidad de mis datos.')}
+         target="_blank" rel="noopener">Escribinos por WhatsApp</a>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .legal { max-width: 72ch; padding-block: 2rem 3rem; }
+  .legal__fecha { font-size: 0.88rem; color: #5a6e75; margin-bottom: 2rem; }
+  .legal h2 { font-size: 1.15rem; margin-top: 2rem; }
+  .legal p { margin: 0.6rem 0; }
+  .legal ul { padding-left: 1.2rem; }
+  .legal li { margin-bottom: 0.45rem; }
+  .legal__contacto {
+    margin-top: 2.5rem; padding: 1.4rem; border-radius: var(--radio);
+    background: var(--gris-suave);
+  }
+  .legal__contacto h2 { margin-top: 0; font-size: 1.1rem; }
+</style>

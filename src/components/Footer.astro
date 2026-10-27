@@ -25,6 +25,10 @@ const anioActual = new Date().getFullYear();
   </div>
   <div class="contenedor pie__base">
     <p>© {anioActual} Rosario Rollos</p>
+    <nav class="pie__legal" aria-label="Enlaces legales">
+      <a href="/terminos-y-condiciones">Términos y condiciones</a>
+      <a href="/politica-de-privacidad">Política de privacidad</a>
+    </nav>
   </div>
 </footer>
 
@@ -39,5 +43,11 @@ const anioActual = new Date().getFullYear();
     font-weight: 600; color: var(--blanco); font-size: 1.2rem; letter-spacing: 0.02em;
   }
   .pie__marca img { width: 42px; height: 42px; object-fit: contain; }
-  .pie__base { border-top: 1px solid rgba(255,255,255,0.12); margin-top: 2rem; padding-block: 1rem; }
+  .pie__base {
+    border-top: 1px solid rgba(255,255,255,0.12); margin-top: 2rem; padding-block: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: center; justify-content: space-between;
+  }
+  .pie__legal { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+  .pie__legal a { color: #d9f2ec; text-decoration: none; font-size: 0.88rem; }
+  .pie__legal a:hover { color: var(--blanco); text-decoration: underline; }
 </style>

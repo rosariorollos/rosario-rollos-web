@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import EncabezadoPagina from '../components/EncabezadoPagina.astro';
+import { EMPRESA, urlWhatsapp } from '../config';
+
+const actualizado = '26 de octubre de 2026';
+---
+<Base
+  title="Términos y condiciones | Rosario Rollos"
+  description="Términos y condiciones de uso del sitio de Rosario Rollos: cómo funcionan los pedidos, precios, envíos y cambios.">
+
+  <div class="contenedor">
+    <Breadcrumbs items={[{ texto: 'Términos y condiciones' }]} />
+  </div>
+
+  <EncabezadoPagina compacto titulo="Términos y condiciones" />
+
+  <div class="contenedor legal">
+    <p class="legal__fecha">Última actualización: {actualizado}</p>
+
+    <h2>1. Quiénes somos</h2>
+    <p>
+      Este sitio pertenece a <strong>{EMPRESA.nombre}</strong>, fábrica y distribuidora de rollos
+      de papel con domicilio en {EMPRESA.direccion}. Podés contactarnos por WhatsApp al
+      {EMPRESA.whatsappVisible} o por correo a {EMPRESA.email}.
+    </p>
+
+    <h2>2. Este sitio no es una tienda online</h2>
+    <p>
+      En este sitio <strong>no se realizan compras ni pagos</strong>. El carrito arma una lista de
+      pedido que se envía por WhatsApp, y a partir de ahí la operación continúa por ese medio.
+      No procesamos tarjetas, no guardamos datos de pago y no existen cuentas de usuario.
+    </p>
+    <p>
+      Enviar un pedido por WhatsApp <strong>no constituye una compra confirmada</strong>: es una
+      solicitud. La operación queda cerrada recién cuando confirmamos disponibilidad, precio
+      final y entrega por ese mismo canal.
+    </p>
+
+    <h2>3. Precios</h2>
+    <p>
+      Los precios publicados están expresados en pesos argentinos y corresponden a la
+      presentación indicada (pack o caja), no a un rollo suelto. Los productos sin precio
+      publicado se cotizan según la cantidad solicitada.
+    </p>
+    <p>
+      Debido a la variación de costos, <strong>los precios pueden cambiar sin aviso previo</strong>.
+      El precio válido es el que confirmamos por WhatsApp al momento de cerrar el pedido.
+      Las ofertas tienen vigencia mientras figuren publicadas o hasta agotar stock.
+    </p>
+
+    <h2>4. Stock y disponibilidad</h2>
+    <p>
+      Trabajamos con stock propio, pero la disponibilidad puede variar. Los productos marcados
+      como "sin stock" no están disponibles al momento. Si un producto solicitado no estuviera
+      disponible, te lo informamos al responder el pedido.
+    </p>
+
+    <h2>5. Envíos</h2>
+    <p>
+      Realizamos envíos sin cargo a comercios y locales de Rosario y alrededores, con logística
+      propia. La zona de cobertura y los plazos se confirman al cerrar el pedido. Para envíos
+      fuera de esa zona, consultanos.
+    </p>
+
+    <h2>6. Productos a medida</h2>
+    <p>
+      Los rollos impresos con logo y las medidas especiales son trabajos a pedido. Se cotizan
+      por separado y, una vez aprobados y puestos en producción, no admiten cancelación.
+    </p>
+
+    <h2>7. Cambios y devoluciones</h2>
+    <p>
+      Si recibís un producto con fallas de fabricación o que no corresponde a lo pedido,
+      avisanos dentro de los 10 días de recibido y lo resolvemos sin cargo. Los productos a
+      medida y los rollos impresos personalizados quedan excluidos, salvo defecto de fabricación.
+    </p>
+    <p>
+      Esto no afecta los derechos que te reconoce la Ley 24.240 de Defensa del Consumidor.
+    </p>
+
+    <h2>8. Compatibilidad de equipos</h2>
+    <p>
+      Las marcas y modelos de impresoras, balanzas y terminales que se mencionan en el sitio
+      se citan únicamente <strong>como referencia de compatibilidad</strong>. No somos
+      distribuidores oficiales de esas marcas ni tenemos vínculo comercial con ellas.
+      La compatibilidad exacta depende del modelo de tu equipo: ante la duda, consultanos
+      antes de comprar.
+    </p>
+
+    <h2>9. Contenido del sitio</h2>
+    <p>
+      Procuramos que la información publicada sea correcta y esté actualizada, pero puede
+      contener errores u omisiones. Las fotos son ilustrativas. Nos reservamos el derecho de
+      modificar productos, descripciones y precios en cualquier momento.
+    </p>
+
+    <h2>10. Cambios en estos términos</h2>
+    <p>
+      Podemos actualizar estos términos. La versión vigente es siempre la publicada en esta
+      página, con su fecha de actualización.
+    </p>
+
+    <div class="legal__contacto">
+      <h2>¿Dudas?</h2>
+      <p>Escribinos y te respondemos.</p>
+      <a class="boton boton--wsp" href={urlWhatsapp('Hola, tengo una consulta sobre los términos y condiciones.')}
+         target="_blank" rel="noopener">Consultar por WhatsApp</a>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .legal { max-width: 72ch; padding-block: 2rem 3rem; }
+  .legal__fecha { font-size: 0.88rem; color: #5a6e75; margin-bottom: 2rem; }
+  .legal h2 { font-size: 1.15rem; margin-top: 2rem; }
+  .legal p { margin: 0.6rem 0; }
+  .legal__contacto {
+    margin-top: 2.5rem; padding: 1.4rem; border-radius: var(--radio);
+    background: var(--gris-suave);
+  }
+  .legal__contacto h2 { margin-top: 0; }
+</style>
