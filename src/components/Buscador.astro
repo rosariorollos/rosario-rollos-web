@@ -32,19 +32,24 @@
   for (const caja of document.querySelectorAll('[data-busca]')) {
     const campo = caja.querySelector('[data-campo]');
     const lista = caja.querySelector('[data-lista]');
-    let indice = null;
-    let cargando = false;
     let marcado = -1;
 
-    async function cargarIndice() {
-      if (indice || cargando) return;
-      cargando = true;
-      try {
-        const r = await fetch('/indice-busqueda.json');
-        indice = await r.json();
-        for (const it of indice) it._p = it.b.split(/s+/).filter(Boolean);
-      } catch { indice = []; }
-      cargando = false;
+    // Se guarda la promesa, no el resultado: si llegan varias teclas mientras
+    // el indice todavia se esta bajando, todas esperan la misma descarga en
+    // lugar de seguir de largo con el indice sin cargar.
+    let indicePromesa = null;
+
+    function cargarIndice() {
+      if (!indicePromesa) {
+        indicePromesa = fetch('/indice-busqueda.json')
+          .then((r) => r.json())
+          .then((datos) => {
+            for (const it of datos) it._p = it.b.split(/\s+/).filter(Boolean);
+            return datos;
+          })
+          .catch(() => []);
+      }
+      return indicePromesa;
     }
 
     function cerrar() {
@@ -94,7 +99,7 @@
       const termino = campo.value.trim();
       // Desde la primera letra ya sugerimos.
       if (termino.length < 1) return cerrar();
-      await cargarIndice();
+      const indice = await cargarIndice();
 
       const palabras = limpiar(termino).split(/\s+/).filter(Boolean);
       if (!palabras.length) return cerrar();
@@ -182,6 +187,10 @@
 
 <style is:global>
 /* Lista de sugerencias: una barra por producto, solo texto. */
+  /* El atributo hidden ya deberia ocultarla, pero el display: grid de abajo
+     le gana a la regla del navegador. Hay que decirlo explicito. */
+  .sugerencias[hidden] { display: none; }
+
   .sugerencias {
     position: absolute; top: calc(100% + 0.4rem); left: 0; right: 0; z-index: 60;
     list-style: none; margin: 0; padding: 0.4rem;
